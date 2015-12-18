@@ -1,20 +1,15 @@
 FROM ubuntu:12.04
 
-### TEMPORAIRE - UTILE POUR LE DEVELOPPEMENT
-
-# MISE A JOUR DISTRIBUTION
 RUN apt-get update
-
 RUN apt-get install -y vim openssh-server cron
-RUN mkdir /var/run/sshd
+
+RUN mkdir -p /var/run/sshd
 RUN mkdir -p /cloudunit/backup
 
-LABEL upgrade="commit"
+LABEL module_name "mysql-data"
+LABEL module_version "5.5"
 
 ADD scripts /cloudunit/scripts
-
 VOLUME /cloudunit/database
-
-# SSH
 EXPOSE 22
 

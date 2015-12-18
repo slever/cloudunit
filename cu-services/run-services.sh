@@ -9,7 +9,7 @@ if [ -f $LOG_FILE ]; then
 fi
 
 if [ -z "$(git describe --exact-match --tags 2>/dev/null)" ]; then
-	GIT_TAG=latest
+	GIT_TAG=dev
 else
 	GIT_TAG=`git describe --exact-match --tags 2>/dev/null`
 fi
