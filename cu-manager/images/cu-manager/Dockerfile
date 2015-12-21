@@ -37,11 +37,11 @@ RUN gem install sass compass
 
 # Dépendances Node.js
 RUN apt-get -y install nodejs npm ruby ruby-dev
+RUN npm install bower -g
 RUN npm install grunt -g
 RUN npm install grunt-cli -g
-RUN sudo npm install bower -g
-RUN sudo npm install -g n
 RUN sudo gem install compass
+RUN npm install bower
 RUN sudo npm install grunt
 RUN sudo npm install grunt-cli
 RUN sudo npm bower
@@ -69,7 +69,7 @@ RUN cd /home/cloudunit/app/CloudUnit/cu-manager/src/main/webapp && npm install
 RUN cd /home/cloudunit/app/CloudUnit/cu-manager/src/main/webapp && bower --allow-root install
 RUN cd /home/cloudunit/app/CloudUnit/cu-manager/src/main/webapp && grunt build
 
-RUN cd /home/cloudunit/app/CloudUnit/cu-manager/ && mvn clean package -DskipTests
+RUN cd /home/cloudunit/app/CloudUnit/cu-manager/ && mvn clean package -DskipTests -Denv.HOME=/opt/tomcat
 
 ENV CATALINA_HOME /opt/tomcat
 ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/bin:$CATALINA_HOME/scripts

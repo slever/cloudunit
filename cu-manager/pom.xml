@@ -43,7 +43,7 @@
 		<spring.security.version>3.2.6.RELEASE</spring.security.version>
 		<hibernate.version>4.2.3.Final</hibernate.version>
 		<codahale.metrics.version>3.0.1</codahale.metrics.version>
-
+        <appserver.home>${project.basedir}/target/tomcat</appserver.home>
 		<skip.integration.tests>true</skip.integration.tests>
 		<skip.unit.tests>false</skip.unit.tests>
 		<!-- surefire argLine empty by default it will be populated by plugin contributing 
@@ -512,6 +512,13 @@
 				<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
 			</properties>
 		</profile>
+
+        <profile>
+            <id>production</id>
+            <properties>
+                <appserver.home>/opt/tomcat</appserver.home>
+            </properties>
+        </profile>
 
         <profile>
 			<id>default</id>
