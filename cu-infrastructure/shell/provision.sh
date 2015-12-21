@@ -103,5 +103,3 @@ docker pull diogomonica/docker-bench-security
 sudo cp cloudunit/cu-infrastructure/files/docker-bench-security /usr/local/bin
 chmod a+x /usr/local/bin/docker-bench-security
 
-docker pull cloudunit/manager:master
-docker pull cloudunit/manager:master

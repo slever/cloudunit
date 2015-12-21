@@ -1,4 +1,5 @@
 /cu-manager/tmp
+/cu-manager/logs
 /tmp
 /cu-platform/docker-compose.yml
 /.vagrant
