@@ -200,7 +200,7 @@ public class DockerContainer {
     }
 
     public String getImage() {
-        return image;
+        return image+":dev";
     }
 
     public void setImage(String image) {

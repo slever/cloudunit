@@ -64,7 +64,7 @@ public class TestUtils {
         throws IOException {
         URL url;
         OutputStream outputStream = null;
-        File file = new File(remoteFile);
+        File file = new File("tmp/"+remoteFile);
         try {
             url = new URL(path);
             InputStream input = url.openStream();

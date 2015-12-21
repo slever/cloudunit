@@ -1,3 +1,5 @@
+/cu-manager/tmp
+/tmp
 /cu-platform/docker-compose.yml
 /.vagrant
 .idea

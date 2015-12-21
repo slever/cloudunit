@@ -510,7 +510,7 @@ public class DockerContainerJSON {
             switch (statusCode) {
                 case 404:
                     throw new ErrorDockerJSONException(
-                            "Image or container not found");
+                            "Image or container not found :" + dockerContainer.getName());
                 case 406:
                     throw new ErrorDockerJSONException(
                             "impossible to attach (container not running)");
