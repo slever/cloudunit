@@ -36,18 +36,74 @@ RUN apt-get update && apt-get install -y\
 RUN gem install sass compass
 
 # Dépendances Node.js
-RUN npm install -g grunt grunt-cli bower
+RUN apt-get -y install nodejs npm ruby ruby-dev
+RUN npm install grunt -g
+RUN npm install grunt-cli -g
+RUN sudo npm install bower -g
+RUN sudo npm install -g n
+RUN sudo gem install compass
+RUN sudo npm install grunt
+RUN sudo npm install grunt-cli
+RUN sudo npm bower
 
 # Fix pour permettre de tirer correctement certaines dépendances
 RUN git config --global url."https://".insteadOf git://
 
-RUN wget https://github.com/Treeptik/CloudUnit/releases/download/1.0/apache-maven-3.3.3-bin.tar.gz -O /tmp/apache-maven-3.3.3-bin.tar.gz \
-RUN tar -xvf /tmp/apache-maven-3.3.3-bin.tar.gz -C /usr/share && rm /tmp/apache-* \
+RUN wget https://github.com/Treeptik/CloudUnit/releases/download/1.0/apache-maven-3.3.3-bin.tar.gz -O /tmp/apache-maven-3.3.3-bin.tar.gz
+RUN tar -xvf /tmp/apache-maven-3.3.3-bin.tar.gz -C /usr/share && rm /tmp/apache-*
 RUN mv /usr/share/apache-maven-3.3.3 /usr/share/maven && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
-WORKDIR /home/builder/app
+RUN mkdir -p /cloudunit/java && wget https://github.com/Treeptik/cloudunit/releases/download/1.0/jdk-8u25-linux-x64.tar.gz -O /tmp/jdk-8u25-linux-x64.tar.gz
+RUN tar -xvf /tmp/jdk-8u25-linux-x64.tar.gz -C /cloudunit/java
+RUN rm /tmp/jdk-*
 
-RUN git clone https://github.com/Treeptik/CloudUnit.git
+RUN groupadd -r cloudunit && useradd -r -g cloudunit cloudunit
+RUN mkdir -p /home/cloudunit/app
+RUN chown -R cloudunit /home/cloudunit/app
+
+WORKDIR /home/cloudunit/app
+
+RUN cd /home/cloudunit/app && git clone https://github.com/Treeptik/CloudUnit.git -b master --depth 1
+
+RUN cd /home/cloudunit/app/CloudUnit/cu-manager/src/main/webapp && npm install
+RUN cd /home/cloudunit/app/CloudUnit/cu-manager/src/main/webapp && bower --allow-root install
+RUN cd /home/cloudunit/app/CloudUnit/cu-manager/src/main/webapp && grunt build
+
+RUN cd /home/cloudunit/app/CloudUnit/cu-manager/ && mvn clean package -DskipTests
+
+ENV CATALINA_HOME /opt/tomcat
+ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/bin:$CATALINA_HOME/scripts
+
+# Install Tomcat
+RUN wget http://apache.websitebeheerjd.nl/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz && \
+	tar -xvf apache-tomcat-8.0.30.tar.gz && \
+	rm apache-tomcat*.tar.gz && \
+	mv apache-tomcat* ${CATALINA_HOME}
+
+RUN chmod +x ${CATALINA_HOME}/bin/*sh
+
+# Create Tomcat admin user
+ADD create_admin_user.sh $CATALINA_HOME/scripts/create_admin_user.sh
+ADD tomcat.sh $CATALINA_HOME/scripts/tomcat.sh
+RUN chmod +x $CATALINA_HOME/scripts/*.sh
+
+# Create tomcat user
+RUN groupadd -r tomcat && \
+	useradd -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin  -c "Tomcat user" tomcat && \
+	chown -R tomcat:tomcat ${CATALINA_HOME}
+
+WORKDIR /opt/tomcat
+RUN rm -rf /opt/tomcat/webapps/*
+RUN cp -rf /home/cloudunit/app/CloudUnit/cu-manager/target/ROOT.war /opt/tomcat/webapps
+RUN chown -R tomcat /opt/tomcat
+
+EXPOSE 8080
+EXPOSE 8009
+
+USER tomcat
+CMD ["tomcat.sh"]
+
+#USER cloudunit
 
 # CMD ./build.sh
 
