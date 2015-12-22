@@ -103,10 +103,6 @@ EXPOSE 8009
 USER tomcat
 CMD ["tomcat.sh"]
 
-#USER cloudunit
-
-# CMD ./build.sh
-
 
 
 
