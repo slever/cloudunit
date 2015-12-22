@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOG_FILE=/home/admincu/cloudunit/cu-services/build-log
+LOG_FILE=/opt/cloudunit/cu-services/build-log
 CACHE=false
 
 if [ $CACHE = true ]; then
