@@ -99,7 +99,7 @@ sudo mv docker-machine* /usr/local/bin
 sudo docker pull swarm
 
 # install docker-bench-security
-docker pull diogomonica/docker-bench-security
-sudo cp cloudunit/cu-infrastructure/files/docker-bench-security /usr/local/bin
-chmod a+x /usr/local/bin/docker-bench-security
+#docker pull diogomonica/docker-bench-security
+#sudo cp cloudunit/cu-infrastructure/files/docker-bench-security /usr/local/bin
+#chmod a+x /usr/local/bin/docker-bench-security
 
