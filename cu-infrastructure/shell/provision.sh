@@ -74,3 +74,5 @@ sudo docker pull swarm
 #sudo cp cloudunit/cu-infrastructure/files/docker-bench-security /usr/local/bin
 #chmod a+x /usr/local/bin/docker-bench-security
 
+sudo mkdir /opt/cloudunit
+cd /home/vagrant/cloudunit/cu-services && sudo ./build-services.sh
