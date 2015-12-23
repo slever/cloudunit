@@ -10,9 +10,9 @@ readonly MACHINE_VERSION=v0.5.1
 
 #==========================================================#
 
-cp -f cloudunit/cu-infrastructure/files/.bashrc /home/vagrant/.bashrc
+cp -f cloudunit/cu-vagrant/files/.bashrc /home/vagrant/.bashrc
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-sudo cp -f cloudunit/cu-infrastructure/files/sources.list /etc/apt/sources.list
+sudo cp -f cloudunit/cu-vagrant/files/sources.list /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y apt-transport-https
@@ -42,16 +42,26 @@ sudo apt-get update
 sudo apt-get install -y docker-engine
 sudo gpasswd -a vagrant docker
 
-# configure for systemd
-sudo cp cloudunit/cu-infrastructure/files/docker.service  /lib/systemd/system/
-sudo cp cloudunit/cu-infrastructure/files/docker.socket   /lib/systemd/system/
+# configure docker for systemd
+if [ "$(uname)" == "Darwin" ]; then
+    sudo cp cloudunit/cu-vagrant/files/docker.no.secure.service  /lib/systemd/system/
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    sudo cp cloudunit/cu-vagrant/files/docker.secure.service  /lib/systemd/system/
+    sudo mkdir /root.docker
+    sudo cp cloudunit/cu-vagrant/certificats/ca.pem /root/.docker
+    sudo cp cloudunit/cu-vagrant/certificats/ca.pem
+    sudo cp cloudunit/cu-vagrant/certificats/server-* /root/.docker
+fi
+
+# configure docker for systemd
+sudo cp cloudunit/cu-vagrant/files/docker.socket   /lib/systemd/system/
 
 # enabled when booting
 sudo systemctl enable docker
 sudo systemctl start  docker
 
 # enable memory and swap accounting
-sudo cp cloudunit/cu-infrastructure/files/grub /etc/default/grub
+sudo cp cloudunit/cu-vagrant/files/grub /etc/default/grub
 sudo update-grub
 
 # install Docker Compose
@@ -71,7 +81,7 @@ sudo docker pull swarm
 
 # install docker-bench-security
 #docker pull diogomonica/docker-bench-security
-#sudo cp cloudunit/cu-infrastructure/files/docker-bench-security /usr/local/bin
+#sudo cp cloudunit/cu-vagrant/files/docker-bench-security /usr/local/bin
 #chmod a+x /usr/local/bin/docker-bench-security
 
 sudo mkdir /opt/cloudunit

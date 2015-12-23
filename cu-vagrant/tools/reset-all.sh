@@ -17,11 +17,11 @@ function todo_or_exit
 {
     if [ "$1" != "-y" ]; then
         echo "Do you want to reset CloudUnit ? [y/n]"
-        read PROD_ASW
-        if [ "$PROD_ASW" != "y" ] && [ "$PROD_ASW" != "n" ]; then
+        read RESET
+        if [ "$RESET" != "y" ] && [ "$RESET" != "n" ]; then
             echo "Entrer y ou n!"
             exit 1
-        elif [ "$PROD_ASW" = "n" ]; then
+        elif [ "$RESET" = "n" ]; then
             exit 1
         fi
     fi
