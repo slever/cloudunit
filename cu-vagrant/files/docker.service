@@ -6,7 +6,7 @@ Requires=docker.socket
 
 [Service]
 Type=notify
-ExecStart=/usr/bin/docker daemon -H fd://
+ExecStart=/usr/bin/docker daemon -H fd:// --bip 172.17.42.1/16 --dns 172.17.42.1 --dns 8.8.8.8 -H=0.0.0.0:2376
 MountFlags=slave
 LimitNOFILE=1048576
 LimitNPROC=1048576
