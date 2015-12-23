@@ -43,7 +43,7 @@ import javax.inject.Inject;
 @Component
 public class Watchdog implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Inject
+    //@Inject
     //private ElasticsearchTask elasticSearchTask;
 
     @Override

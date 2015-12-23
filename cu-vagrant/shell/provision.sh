@@ -85,4 +85,4 @@ sudo docker pull swarm
 #chmod a+x /usr/local/bin/docker-bench-security
 
 sudo mkdir /opt/cloudunit
-cd /home/vagrant/cloudunit/cu-services && sudo ./build-services.sh
+cd /home/vagrant/cloudunit/cu-services && sudo ./build-images.sh
