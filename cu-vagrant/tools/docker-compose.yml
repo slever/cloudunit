@@ -20,7 +20,7 @@ redis:
 mysql:
     image: mysql:5.7.4
     environment:
-        - MYSQL_ROOT_PASSWORD
+        - MYSQL_ROOT_PASSWORD=changeit
         - MYSQL_DATABASE=cloudunit
     ports:
         - 3306:3306
@@ -40,7 +40,7 @@ mysqldata:
 testmysql:
     image: mysql:5.7.4
     environment:
-        - MYSQL_ROOT_PASSWORD
+        - MYSQL_ROOT_PASSWORD=changeit
         - MYSQL_DATABASE=cloudunit
     ports:
         - 3307:3306

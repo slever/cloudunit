@@ -296,7 +296,6 @@ public class SnapshotServiceImpl
             application.setDeploymentStatus(snapshot.getDeploymentStatus());
             applicationService.saveInDB(application);
 
-
             for (String savedPort : snapshot.getSavedPorts()) {
                 applicationService.addPort(application,
                         savedPort.split(";")[1],

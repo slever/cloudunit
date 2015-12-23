@@ -44,11 +44,11 @@ import javax.inject.Inject;
 public class Watchdog implements ApplicationListener<ContextRefreshedEvent> {
 
     @Inject
-    private ElasticsearchTask elasticSearchTask;
+    //private ElasticsearchTask elasticSearchTask;
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
-        elasticSearchTask.run();
+        //elasticSearchTask.run();
     }
 
 

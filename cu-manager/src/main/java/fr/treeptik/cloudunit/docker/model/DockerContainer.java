@@ -45,6 +45,16 @@ public class DockerContainer {
 
     private String image;
 
+    public String getImageTag() {
+        return imageTag;
+    }
+
+    public void setImageTag(String imageTag) {
+        this.imageTag = imageTag;
+    }
+
+    private String imageTag;
+
     private String imageID;
 
     private String ip;
@@ -200,7 +210,7 @@ public class DockerContainer {
     }
 
     public String getImage() {
-        return image+":dev";
+        return image;
     }
 
     public void setImage(String image) {

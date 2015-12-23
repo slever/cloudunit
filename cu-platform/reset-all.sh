@@ -28,13 +28,13 @@ docker kill $(docker ps -aq)
 echo -e "\nRemoving containers\n"
 docker rm -vf $(docker ps -aq)
 echo -e "\nChanging directory\n"
-cd /home/admincu/cloudunit/cu-platform
+cd /home/$USER/cloudunit/cu-platform
 echo -e "\nCurrent directory: `pwd`\n"
 sudo rm -rf /registry/* /var/log/cloudunit
 echo -e "\nStarting the platform\n"
-/home/admincu/cloudunit/cu-platform/start-platform.sh reset
+/home/$USER/cloudunit/cu-platform/start-platform.sh reset
 echo -e "\nChanging directory\n"
-cd /home/admincu/cloudunit/cu-services
+cd /home/$USER/cloudunit/cu-services
 echo -e "\nCurrent directory: `pwd`\n"
 echo -e "\nRunning services\n"
-/home/admincu/cloudunit/cu-services/run-services.sh
+/home/$USER/cloudunit/cu-services/run-services.sh
