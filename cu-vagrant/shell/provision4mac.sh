@@ -17,6 +17,7 @@ sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y apt-transport-https
 sudo apt-get install -y curl
+sudo apt-get install -y vim
 sudo apt-get install -y golang
 
 #==========================================================#
@@ -75,6 +76,10 @@ sudo docker pull swarm
 #docker pull diogomonica/docker-bench-security
 #sudo cp cloudunit/cu-vagrant/files/docker-bench-security /usr/local/bin
 #chmod a+x /usr/local/bin/docker-bench-security
+
+# to activate the new docker.service file configuration
+sudo service docker stop
+sudo service docker start
 
 sudo mkdir /opt/cloudunit
 cd /home/vagrant/cloudunit/cu-services && sudo ./build-images.sh
