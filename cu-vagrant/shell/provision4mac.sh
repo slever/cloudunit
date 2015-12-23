@@ -43,15 +43,7 @@ sudo apt-get install -y docker-engine
 sudo gpasswd -a vagrant docker
 
 # configure docker for systemd
-if [ "$(uname)" == "Darwin" ]; then
-    sudo cp cloudunit/cu-vagrant/files/docker.no.secure.service  /lib/systemd/system/
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    sudo cp cloudunit/cu-vagrant/files/docker.secure.service  /lib/systemd/system/
-    sudo mkdir /root.docker
-    sudo cp cloudunit/cu-vagrant/certificats/ca.pem /root/.docker
-    sudo cp cloudunit/cu-vagrant/certificats/ca.pem
-    sudo cp cloudunit/cu-vagrant/certificats/server-* /root/.docker
-fi
+sudo cp cloudunit/cu-vagrant/files/docker.no.secure.service  /lib/systemd/system/docker.service
 
 # configure docker for systemd
 sudo cp cloudunit/cu-vagrant/files/docker.socket   /lib/systemd/system/
