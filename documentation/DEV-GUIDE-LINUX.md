@@ -18,7 +18,7 @@ If you simply wish to test CloudUnit, you should maybe run our [Demo Vagrant box
 
 * `cloudunit/cu-manager`  : Maven project 
 * `cloudunit/cu-plaform`  : Shell scripts for administration 
-* `cloudunit/cu-services` : Docker images
+* `cloudunit/cu-images` : Docker images
 
 ## Dev Rules and Principles
 

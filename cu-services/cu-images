@@ -1,7 +1,0 @@
-cloudunit/java images/tools/java
-cloudunit/git images/tools/git
-cloudunit/tomcat-appconf8 images/servers/appconf/tomcat-appconf8
-cloudunit/tomcat-8 images/servers/binaries/tomcat-8
-cloudunit/fatjar images/servers/appconf/fatjar
-cloudunit/mysql-5-5 images/modules/mysql-5-5
-cloudunit/mysql-5-5-data images/modules/mysql-5-5-data

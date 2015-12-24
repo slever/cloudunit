@@ -59,6 +59,7 @@ public class ElasticsearchTask implements Task {
      * @param exit
      */
     private void isRunning(boolean exit) {
+        /*
         TransportClient client = new TransportClient();
         try {
             client.addTransportAddress(new InetSocketTransportAddress(ipES, DEFAULT_ES_PORT));
@@ -85,9 +86,9 @@ public class ElasticsearchTask implements Task {
             if (client != null) {
                 client.close();
             }
+
         }
-
+        */
     }
-
 
 }

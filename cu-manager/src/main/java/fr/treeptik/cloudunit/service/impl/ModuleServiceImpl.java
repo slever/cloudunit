@@ -963,7 +963,7 @@ public class ModuleServiceImpl
 
         logger.debug("restoreBackup  of module : : " + module);
 
-        String scriptHostPath = "/vagrant_cloudunit/cu-services/scriptHost/";
+        String scriptHostPath = "/vagrant_cloudunit/cu-images/scriptHost/";
         String dataContainerName = module.getName() + "-data";
         logger.info("logger.ModuleService : Starting finding data container for "
                 + dataContainerName);
