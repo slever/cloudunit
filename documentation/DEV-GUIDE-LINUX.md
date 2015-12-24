@@ -130,4 +130,4 @@ VBoxManage modifyhd tmp-disk.vdi --resize 61440
 VBoxManage clonehd tmp-disk.vdi resized-disk.vmdk --format vmdk
 rm tmp-disk.vdi debian-jessie-disk1.vmdk
 mv resized-disk.vmdk debian-jessie-disk1.vmdk
-```
+``` 
