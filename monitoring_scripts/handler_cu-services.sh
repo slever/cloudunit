@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir=/home/admincu/cloudunit/cu-services
+dir=/home/admincu/cloudunit/cu-images
 file_err=/tmp/service_cont_not_launched
 file_cont=$dir/run-services.sh
 

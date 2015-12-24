@@ -120,7 +120,7 @@ To run the UI for development (http://0.0.0.0:9000)
 ```
 cd $HOME/CloudUnit
 vagrant ssh dev
-cloudunit/cu-platform/reset-all.sh -y
+cloudunit/cu-vagrant/utils/reset-all.sh -y
 ```
 
 ## Docker daemon Socket Configuration

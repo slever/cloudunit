@@ -112,8 +112,8 @@ Update your sources, build the images and reninit the database :
 
 ```
 vagrant ssh dev
-cloudunit/cu-services/build-services.sh
-cloudunit/cu-platform/reset-all.sh -y
+cloudunit/cu-images/build-images.sh
+cloudunit/cu-vagrant/utils/reset-all.sh -y
 ```
 
 By default, docker cache is disabled. So all images will be built again.

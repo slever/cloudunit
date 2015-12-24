@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir=/home/admincu/cloudunit/cu-services
+dir=/home/admincu/cloudunit/cu-images
 file_list_im=$dir/cu-images
 file_err_im=/tmp/image_not_built
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE=/home/admincu/cloudunit/cu-services/cu-images
+FILE=/home/admincu/cloudunit/cu-images/cu-images
 
 while read line
 do
