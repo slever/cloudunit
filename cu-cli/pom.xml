@@ -4,7 +4,13 @@
     <groupId>fr.treeptik</groupId>
     <artifactId>cu-cli</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>cu-clii</name>
+    <name>cu-cli</name>
+
+    <parent>
+        <groupId>fr.treeptik.cloudunit</groupId>
+        <artifactId>cu-parent</artifactId>
+        <version>1.0</version>
+    </parent>
 
     <properties>
 
