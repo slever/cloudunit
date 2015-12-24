@@ -112,5 +112,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-source cloudunit/cu-vagrant/utils/aliases.sh
+source /home/vagrant/cloudunit/cu-vagrant/utils/aliases.sh
 
