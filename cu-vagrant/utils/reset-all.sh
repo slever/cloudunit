@@ -35,8 +35,9 @@ function cleaning
     echo -e "\nRemoving containers\n"
     docker rm -vf $(docker ps -aq)
 
-    echo -e "\nCurrent directory: `pwd`\n"
-    sudo rm -rf /registry/* /var/log/cloudunit
+    sudo rm -rf /registry/*
+    sudo rm -rf /var/lib/docker/containers/*
+    sudo rm -rf /var/log/cloudunit/*
 }
 
 function run_dead_containers
