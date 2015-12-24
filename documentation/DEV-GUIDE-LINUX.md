@@ -120,3 +120,14 @@ By default, docker cache is disabled. So all images will be built again.
 To speed up, you can activate the cache but it could be dangerous 
 if you modify a parent image with docker inheritance.
 
+## How to resize properly a vagrant box for 60 Go disk size
+
+```
+vagrant box add debian/jessie64 --box-version 8.2.2
+cd ~/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64/8.2.2/virtualbox/
+VBoxManage clonehd debian-jessie-disk1.vmdk tmp-disk.vdi --format vdi
+VBoxManage modifyhd tmp-disk.vdi --resize 61440
+VBoxManage clonehd tmp-disk.vdi resized-disk.vmdk --format vmdk
+rm tmp-disk.vdi debian-jessie-disk1.vmdk
+mv resized-disk.vmdk debian-jessie-disk1.vmdk
+```
