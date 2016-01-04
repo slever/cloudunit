@@ -22,8 +22,20 @@ import java.util.HashMap;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ImageCommandTests {
 
+    static String DOCKER_HOST;
+    static Boolean isTLS;
+    static {
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.indexOf("mac") >= 0) {
+            DOCKER_HOST = "cloudunit.dev:4243";
+            isTLS = false;
+        } else {
+            DOCKER_HOST = "cloudunit.dev:2676";
+            isTLS = false;
+        }
+    }
+
     private static DockerClient dockerClient;
-    private static final String DOCKER_HOST = "cloudunit.dev:2376";
     private static final String CONTAINER_NAME = "myContainer";
     private final int RUNNING_CONTAINERS = 7;
     private final String TAG = "mytag";
@@ -51,7 +63,7 @@ public class ImageCommandTests {
                 .build();
         Container container = ContainerBuilder.aContainer().withName(CONTAINER_NAME).withConfig(config).build();
         try {
-            dockerClient.setDriver(new SimpleDockerDriver("/home/guillaume/CloudUnit/cu-vagrant/certificats", true));
+            dockerClient.setDriver(new SimpleDockerDriver("../../../cu-vagrant/certificats", isTLS));
             dockerClient.createContainer(container, DOCKER_HOST);
         } catch (DockerJSONException e) {
             Assert.fail();
