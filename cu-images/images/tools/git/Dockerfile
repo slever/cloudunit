@@ -2,6 +2,7 @@
 FROM cloudunit/base-12.04
 
 # INSTALLATION PRODUITS ANNEXES (GIT, ...)
+RUN apt-get update
 RUN apt-get install -y git expect apache2 apache2-utils rsyslog
 RUN sed -i 's|/var/log/auth.log|/var/log/cloudunit/auth.log|' /etc/rsyslog.d/50-default.conf
 
