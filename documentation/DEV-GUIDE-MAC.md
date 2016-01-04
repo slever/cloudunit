@@ -92,14 +92,14 @@ Follow these instructions
 * `mkdir $HOME/infrastructure`
 * `cd $HOME/infrastructure`
 * `git clone https://github.com/Treeptik/CU-infrastructure`
-* `cd $HOME && git clone https://github.com/Treeptik/CloudUnit.git`
-* `cd $HOME/CloudUnit/cu-manager/src/main/webapp && sudo npm install grunt -g`
-* `cd $HOME/CloudUnit/cu-manager/src/main/webapp && sudo npm install grunt-cli -g`
-* `cd $HOME/CloudUnit/cu-manager/src/main/webapp && sudo npm install bower -g`
-* `cd $HOME/CloudUnit/cu-manager/src/main/webapp && sudo npm install -g n`
-* `cd $HOME/CloudUnit/cu-manager/src/main/webapp && sudo stable n`
-* `cd $HOME/CloudUnit/cu-manager/src/main/webapp && bower install`
-* `cd $HOME/CloudUnit/cu-manager/src/main/webapp && sudo gem install compass`
+* `cd $HOME && git clone https://github.com/Treeptik/cloudunit.git`
+* `cd $HOME/cloudunit/cu-manager/src/main/webapp && sudo npm install grunt -g`
+* `cd $HOME/cloudunit/cu-manager/src/main/webapp && sudo npm install grunt-cli -g`
+* `cd $HOME/cloudunit/cu-manager/src/main/webapp && sudo npm install bower -g`
+* `cd $HOME/cloudunit/cu-manager/src/main/webapp && sudo npm install -g n`
+* `cd $HOME/cloudunit/cu-manager/src/main/webapp && sudo stable n`
+* `cd $HOME/cloudunit/cu-manager/src/main/webapp && bower install`
+* `cd $HOME/cloudunit/cu-manager/src/main/webapp && sudo gem install compass`
 
 ## How to install Vagrant plugins
 ```
@@ -110,15 +110,15 @@ vagrant plugin install vagrant-vbguest
 ## How to start Environment Developpment
 
 To run the UI for development (http://0.0.0.0:9000)
-*  `cd $HOME/CloudUnit/cu-manager/src/main/webapp && vagrant up dev`
-*  `cd $HOME/CloudUnit/cu-manager/src/main/webapp && grunt serve`
-*  `cd $HOME/CloudUnit/cu-manager`
+*  `cd $HOME/cloudunit/cu-manager/src/main/webapp && vagrant up dev`
+*  `cd $HOME/cloudunit/cu-manager/src/main/webapp && grunt serve`
+*  `cd $HOME/cloudunit/cu-manager`
 *  `mvn clean compile tomcat7:run -DskipTests -Dspring.profiles.active=vagrant`
 
 ## How to reset Environment Developpment
 
 ```
-cd $HOME/CloudUnit
+cd $HOME/cloudunit
 vagrant ssh dev
 cloudunit/cu-vagrant/utils/reset-all.sh -y
 ```
