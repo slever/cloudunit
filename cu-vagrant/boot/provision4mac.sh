@@ -83,3 +83,4 @@ sudo service docker start
 
 sudo mkdir /opt/cloudunit
 cd /home/vagrant/cloudunit/cu-images && sudo ./build-images.sh
+cd /home/vagrant/cloudunit/cu-vagrant/utils && sudo ./reset-all.sh -y
