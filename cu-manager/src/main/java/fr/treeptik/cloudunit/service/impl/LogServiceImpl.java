@@ -17,7 +17,7 @@
 package fr.treeptik.cloudunit.service.impl;
 
 import fr.treeptik.cloudunit.docker.model.DockerContainer;
-import fr.treeptik.cloudunit.dto.LogUnit;
+import fr.treeptik.cloudunit.core.dto.LogUnit;
 import fr.treeptik.cloudunit.exception.ErrorDockerJSONException;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.model.Application;
@@ -216,8 +216,7 @@ public class LogServiceImpl
                     Map<String, Object> map = oneHit.sourceAsMap();
                     String message = (String) map.get("message");
                     String pathFile = (String) map.get("path");
-                    String timestamp = (String) map.get("@timestamp");
-                    lines.add(new LogUnit(pathFile, timestamp, message));
+                    lines.add(new LogUnit(pathFile, message));
                 }
             }
 

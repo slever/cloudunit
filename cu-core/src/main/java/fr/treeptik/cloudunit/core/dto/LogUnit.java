@@ -13,7 +13,7 @@
  * For any questions, contact us : contact@treeptik.fr
  */
 
-package fr.treeptik.cloudunit.dto;
+package fr.treeptik.cloudunit.core.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,47 +21,24 @@ import java.util.Date;
 /**
  * Created by nicolas on 25/08/2014.
  */
-public class LogUnit {
+final public class LogUnit {
 
-    private static SimpleDateFormat simpleDateFormatFrom = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    private final String source;
+    private final String message;
 
-    private static SimpleDateFormat simpleDateFormatTo = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
-    private String source;
-
-    private String date;
-
-    private String message;
-
-    public LogUnit(final String source, final String date, final String message) {
-
+    public LogUnit(final String source, final String message) {
         if (source == null) {
             throw new IllegalArgumentException("Source cannot be null");
-        }
-        if (date == null) {
-            throw new IllegalArgumentException("Date cannot be null");
         }
         if (message == null) {
             throw new IllegalArgumentException("Message cannot be null");
         }
-
         this.message = message;
         if (source != null && source.contains("/")) {
             this.source = source.substring(source.lastIndexOf("/") + 1);
         } else {
             this.source = source;
         }
-        try {
-            if (date != null && date.trim().length() > 0) {
-                Date tempDate = simpleDateFormatFrom.parse(date.replaceAll("Z$", "+0000"));
-                this.date = simpleDateFormatTo.format(tempDate);
-            }
-        } catch (Exception ignore) {
-        }
-    }
-
-    public String getDate() {
-        return date;
     }
 
     public String getMessage() {
@@ -73,31 +50,21 @@ public class LogUnit {
     }
 
     @Override
-    public String toString() {
-        return "LogUnit{" +
-            "source='" + source + '\'' +
-            ", date='" + date + '\'' +
-            ", message='" + message + '\'' +
-            '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LogUnit)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         LogUnit logUnit = (LogUnit) o;
 
-        if (this.source != null ? !this.source.equals(logUnit.source) : logUnit.source != null) return false;
-        if (this.date != null ? !this.date.equals(logUnit.date) : logUnit.date != null) return false;
-        return !(message != null ? !message.equals(logUnit.message) : logUnit.message != null);
+        if (!source.equals(logUnit.source)) return false;
+        return message.equals(logUnit.message);
+
     }
 
     @Override
     public int hashCode() {
-        int result = this.source != null ? this.source.hashCode() : 0;
-        result = 31 * result + (this.date != null ? this.date.hashCode() : 0);
-        result = 31 * result + (this.message != null ? this.message.hashCode() : 0);
+        int result = source.hashCode();
+        result = 31 * result + message.hashCode();
         return result;
     }
 }
