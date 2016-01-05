@@ -17,6 +17,7 @@ LABEL upgrade="commit"
 
 # EXPOSE PORT
 EXPOSE 22
+EXPOSE 8080
 
 VOLUME /cloudunit/appconf/logs
 
