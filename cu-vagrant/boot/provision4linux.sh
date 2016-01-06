@@ -82,6 +82,6 @@ sudo docker pull swarm
 
 sudo mkdir /opt/cloudunit
 cd /home/vagrant/cloudunit/cu-images && sudo ./build-images.sh
-cd /home/vagrant/cloudunit/cu-vagrant/utils && sudo ./reset-all.sh -y
+cd /home/vagrant/cloudunit/cu-vagrant/utils && ./reset-all.sh -y
 
 
