@@ -14,7 +14,7 @@
  */
 
 
-package fr.treeptik.cloudunit.service.impl;
+package fr.treeptik.cloudunit.service.impl.docker;
 
 import fr.treeptik.cloudunit.docker.model.DockerContainer;
 import fr.treeptik.cloudunit.exception.ErrorDockerJSONException;
@@ -32,6 +32,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by nicolas on 25/08/2014.
  */
+@Profile("docker")
 @Service
 public class MonitoringServiceImpl
     implements MonitoringService {

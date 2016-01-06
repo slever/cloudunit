@@ -53,7 +53,8 @@ import java.util.Locale;
     "fr.treeptik.cloudunit.dao", "fr.treeptik.cloudunit.docker",
     "fr.treeptik.cloudunit.docker.model", "fr.treeptik.cloudunit.config",
     "fr.treeptik.cloudunit.exception", "fr.treeptik.cloudunit.model",
-    "fr.treeptik.cloudunit.service", "fr.treeptik.cloudunit.service.impl",
+    "fr.treeptik.cloudunit.service", "fr.treeptik.cloudunit.service.impl.docker",
+    "fr.treeptik.cloudunit.service.impl.tutum",
     "fr.treeptik.cloudunit.utils", "fr.treeptik.cloudunit.aspects",
     "fr.treeptik.cloudunit.manager", "fr.treeptik.cloudunit.manager.impl",
     "fr.treeptik.cloudunit.monitor", "fr.treeptik.cloudunit.monitor.tasks"

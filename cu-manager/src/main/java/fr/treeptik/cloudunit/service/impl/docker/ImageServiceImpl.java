@@ -13,7 +13,7 @@
  * For any questions, contact us : contact@treeptik.fr
  */
 
-package fr.treeptik.cloudunit.service.impl;
+package fr.treeptik.cloudunit.service.impl.docker;
 
 import fr.treeptik.cloudunit.dao.ImageDAO;
 import fr.treeptik.cloudunit.exception.ServiceException;
@@ -21,6 +21,7 @@ import fr.treeptik.cloudunit.model.Image;
 import fr.treeptik.cloudunit.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import java.util.List;
 
+@Profile("docker")
 @Service
 public class ImageServiceImpl
     implements ImageService {

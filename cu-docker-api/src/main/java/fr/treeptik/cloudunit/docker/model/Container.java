@@ -99,7 +99,15 @@ public class Container implements Serializable {
     private Object graphDriver;
 
     @JsonProperty("Mounts")
-    private List<String> mounts;
+    private List<Mounts> mounts;
+
+    public List<Mounts> getMounts() {
+        return mounts;
+    }
+
+    public void setMounts(List<Mounts> mounts) {
+        this.mounts = mounts;
+    }
 
     @JsonProperty("ImageID")
     private String ImageID;

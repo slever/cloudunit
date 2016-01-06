@@ -13,7 +13,7 @@
  * For any questions, contact us : contact@treeptik.fr
  */
 
-package fr.treeptik.cloudunit.service.impl;
+package fr.treeptik.cloudunit.service.impl.docker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.treeptik.cloudunit.dao.ModuleConfigurationDAO;
@@ -29,6 +29,7 @@ import fr.treeptik.cloudunit.utils.ShellUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Profile("docker")
 @Service
 public class SnapshotServiceImpl
         implements SnapshotService {

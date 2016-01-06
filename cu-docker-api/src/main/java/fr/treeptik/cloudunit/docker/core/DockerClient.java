@@ -489,17 +489,17 @@ public class DockerClient {
             logger.info("The client attempts to execute a command into a container...");
             ExecBody execBody = ExecBodyBuilder.anExecBody()
                     .withCmd(commands)
-                    .withAttachStdin(Boolean.FALSE)
+                    .withAttachStdin(Boolean.TRUE)
                     .withAttachStdout(Boolean.TRUE)
                     .withAttachStderr(Boolean.TRUE)
-                    .withTty(Boolean.FALSE)
+                    .withTty(Boolean.TRUE)
                     .build();
             dockerResponse = driver.execCreate(container, execBody, host);
             handleDockerAPIError(dockerResponse);
             ExecStartBody execStartBody = ExecStartBodyBuilder
                     .anExecStartBody()
                     .withDetach(Boolean.FALSE)
-                    .withTty(Boolean.FALSE)
+                    .withTty(Boolean.TRUE)
                     .build();
             execBody = objectMapper.readValue(dockerResponse.getBody(), ExecBody.class);
             dockerResponse = driver.execStart(execBody.getId(), execStartBody, host);
@@ -522,17 +522,17 @@ public class DockerClient {
             logger.info("The client attempts to execute a command into a container...");
             ExecBody execBody = ExecBodyBuilder.anExecBody()
                     .withCmd(commands)
-                    .withAttachStdin(Boolean.FALSE)
+                    .withAttachStdin(Boolean.TRUE)
                     .withAttachStdout(Boolean.TRUE)
                     .withAttachStderr(Boolean.TRUE)
-                    .withTty(Boolean.FALSE)
+                    .withTty(Boolean.TRUE)
                     .build();
             dockerResponse = driver.execCreate(container, execBody, defaultHost);
             handleDockerAPIError(dockerResponse);
             ExecStartBody execStartBody = ExecStartBodyBuilder
                     .anExecStartBody()
                     .withDetach(Boolean.FALSE)
-                    .withTty(Boolean.FALSE)
+                    .withTty(Boolean.TRUE)
                     .build();
             execBody = objectMapper.readValue(dockerResponse.getBody(), ExecBody.class);
             dockerResponse = driver.execStart(execBody.getId(), execStartBody, defaultHost);

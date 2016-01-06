@@ -13,7 +13,7 @@
  * For any questions, contact us : contact@treeptik.fr
  */
 
-package fr.treeptik.cloudunit.service.impl;
+package fr.treeptik.cloudunit.service.impl.docker;
 
 import fr.treeptik.cloudunit.config.CustomPasswordEncoder;
 import fr.treeptik.cloudunit.dao.MessageDAO;
@@ -32,6 +32,7 @@ import fr.treeptik.cloudunit.utils.ShellUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@Profile("docker")
 @Service
 @Lazy(true)
 public class UserServiceImpl

@@ -14,7 +14,7 @@
  */
 
 
-package fr.treeptik.cloudunit.service.impl;
+package fr.treeptik.cloudunit.service.impl.docker;
 
 import com.spotify.docker.client.*;
 import com.spotify.docker.client.messages.Container;
@@ -37,6 +37,7 @@ import fr.treeptik.cloudunit.utils.ShellUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -49,6 +50,7 @@ import java.util.*;
  * Service for file management into container
  * Created by nicolas on 20/05/15.
  */
+@Profile("docker")
 @Service
 public class FileServiceImpl
         implements FileService {

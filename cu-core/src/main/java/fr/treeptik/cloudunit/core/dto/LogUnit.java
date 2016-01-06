@@ -26,7 +26,7 @@ final public class LogUnit {
     private final String source;
     private final String message;
 
-    public LogUnit(final String source, final String message) {
+    public LogUnit(String source, String message) {
         if (source == null) {
             throw new IllegalArgumentException("Source cannot be null");
         }

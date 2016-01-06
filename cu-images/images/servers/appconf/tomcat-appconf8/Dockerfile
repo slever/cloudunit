@@ -16,9 +16,7 @@ RUN chmod +x /cloudunit/appconf/scripts/*
 LABEL upgrade="commit"
 
 # EXPOSE PORT
-EXPOSE 8080
 EXPOSE 22
-
 
 VOLUME /cloudunit/appconf/logs
 

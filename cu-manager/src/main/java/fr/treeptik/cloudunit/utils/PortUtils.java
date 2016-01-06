@@ -21,7 +21,7 @@ import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.model.Application;
 import fr.treeptik.cloudunit.model.ProxyCustomPort;
 import fr.treeptik.cloudunit.model.ProxySshPort;
-import fr.treeptik.cloudunit.service.impl.ApplicationServiceImpl;
+import fr.treeptik.cloudunit.service.impl.docker.ApplicationServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -14,7 +14,7 @@
  */
 
 
-package fr.treeptik.cloudunit.service.impl;
+package fr.treeptik.cloudunit.service.impl.docker;
 
 import fr.treeptik.cloudunit.dao.DeploymentDAO;
 import fr.treeptik.cloudunit.exception.CheckException;
@@ -24,6 +24,7 @@ import fr.treeptik.cloudunit.model.Deployment;
 import fr.treeptik.cloudunit.model.Type;
 import fr.treeptik.cloudunit.service.ApplicationService;
 import fr.treeptik.cloudunit.service.DeploymentService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ import javax.persistence.PersistenceException;
 import java.util.Date;
 import java.util.List;
 
+@Profile("docker")
 @Service
 public class DeploymentServiceImpl
     implements DeploymentService {

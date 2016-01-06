@@ -22,16 +22,6 @@ public class AdvancedCommandTests {
 
     static String DOCKER_HOST;
     static Boolean isTLS;
-    static {
-        String OS = System.getProperty("os.name").toLowerCase();
-        if (OS.indexOf("mac") >= 0) {
-            DOCKER_HOST = "cloudunit.dev:4243";
-            isTLS = false;
-        } else {
-            DOCKER_HOST = "cloudunit.dev:2676";
-            isTLS = false;
-        }
-    }
 
     private static DockerClient dockerClient;
     private static final String CONTAINER_NAME = "myContainer";
@@ -42,6 +32,16 @@ public class AdvancedCommandTests {
 
     @BeforeClass
     public static void setup() {
+
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.indexOf("mac") >= 0) {
+            DOCKER_HOST = "cloudunit.dev:4243";
+            isTLS = false;
+        } else {
+            DOCKER_HOST = "cloudunit.dev:2676";
+            isTLS = false;
+        }
+
         dockerClient = new DockerClient();
         dockerClient.setDriver(new SimpleDockerDriver("../../../cu-vagrant/certificats", isTLS));
 
@@ -97,6 +97,7 @@ public class AdvancedCommandTests {
                 .withName("myContainer")
                 .build();
         container = dockerClient.findContainer(container, DOCKER_HOST);
+        // Change it in 2017 :-)
         Assert.assertTrue(dockerClient.execCommand(container, Arrays.asList("date"), DOCKER_HOST).getBody()
                 .contains("2016"));
     }

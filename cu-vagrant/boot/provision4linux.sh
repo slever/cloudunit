@@ -46,7 +46,6 @@ sudo gpasswd -a vagrant docker
 sudo cp cloudunit/cu-vagrant/files/docker.secure.service  /lib/systemd/system/docker.service
 sudo mkdir /root/.docker
 sudo cp cloudunit/cu-vagrant/certificats/ca.pem /root/.docker
-sudo cp cloudunit/cu-vagrant/certificats/ca.pem
 sudo cp cloudunit/cu-vagrant/certificats/server-* /root/.docker
 
 # configure docker for systemd

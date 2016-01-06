@@ -24,16 +24,6 @@ public class ImageCommandTests {
 
     static String DOCKER_HOST;
     static Boolean isTLS;
-    static {
-        String OS = System.getProperty("os.name").toLowerCase();
-        if (OS.indexOf("mac") >= 0) {
-            DOCKER_HOST = "cloudunit.dev:4243";
-            isTLS = false;
-        } else {
-            DOCKER_HOST = "cloudunit.dev:2676";
-            isTLS = false;
-        }
-    }
 
     private static DockerClient dockerClient;
     private static final String CONTAINER_NAME = "myContainer";
@@ -44,6 +34,16 @@ public class ImageCommandTests {
 
     @BeforeClass
     public static void setup() {
+
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.indexOf("mac") >= 0) {
+            DOCKER_HOST = "cloudunit.dev:4243";
+            isTLS = false;
+        } else {
+            DOCKER_HOST = "cloudunit.dev:2676";
+            isTLS = false;
+        }
+
         dockerClient = new DockerClient();
         HostConfig hostConfig = HostConfigBuilder.aHostConfig()
                 .withVolumesFrom(new ArrayList<>())
