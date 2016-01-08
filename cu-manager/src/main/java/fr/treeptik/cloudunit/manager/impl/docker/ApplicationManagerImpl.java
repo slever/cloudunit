@@ -13,7 +13,7 @@
  * For any questions, contact us : contact@treeptik.fr
  */
 
-package fr.treeptik.cloudunit.manager.impl;
+package fr.treeptik.cloudunit.manager.impl.docker;
 
 import fr.treeptik.cloudunit.exception.CheckException;
 import fr.treeptik.cloudunit.exception.ServiceException;
@@ -26,6 +26,7 @@ import fr.treeptik.cloudunit.utils.FilesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,6 +39,7 @@ import java.util.Locale;
  * LifeCycle for an application
  * Created by nicolas on 21/09/15.
  */
+@Profile("docker")
 @Component
 public class ApplicationManagerImpl
         implements ApplicationManager {
