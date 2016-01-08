@@ -38,12 +38,12 @@ public class AdvancedCommandTests {
             DOCKER_HOST = "cloudunit.dev:4243";
             isTLS = false;
         } else {
-            DOCKER_HOST = "cloudunit.dev:2676";
-            isTLS = false;
+            DOCKER_HOST = "cloudunit.dev:2376";
+            isTLS = true;
         }
 
         dockerClient = new DockerClient();
-        dockerClient.setDriver(new SimpleDockerDriver("../../../cu-vagrant/certificats", isTLS));
+        dockerClient.setDriver(new SimpleDockerDriver("/home/guillaume/cloudunit/cu-vagrant/certificats", isTLS));
 
         HostConfig hostConfig = HostConfigBuilder.aHostConfig()
                 .withVolumesFrom(new ArrayList<>())

@@ -2,10 +2,18 @@ package fr.treeptik.cloudunit.docker.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * Created by nicolas on 06/01/2016.
  */
-public class Mounts {
+public class Mounts implements Serializable {
+
+    @JsonProperty("Name")
+    private String name;
+
+    @JsonProperty("Driver")
+    private String driver;
 
     @JsonProperty("Source")
     private String source;
