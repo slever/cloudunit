@@ -63,7 +63,7 @@ public class ImageCommandTests {
                 .build();
         Container container = ContainerBuilder.aContainer().withName(CONTAINER_NAME).withConfig(config).build();
         try {
-            dockerClient.setDriver(new SimpleDockerDriver("/home/guillaume/cloudunit/cu-vagrant/certificats", isTLS));
+            dockerClient.setDriver(new SimpleDockerDriver("../cu-vagrant/certificats", isTLS));
             dockerClient.createContainer(container, DOCKER_HOST);
         } catch (DockerJSONException e) {
             Assert.fail();

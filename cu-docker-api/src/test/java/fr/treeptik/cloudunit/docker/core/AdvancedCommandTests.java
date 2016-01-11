@@ -43,7 +43,7 @@ public class AdvancedCommandTests {
         }
 
         dockerClient = new DockerClient();
-        dockerClient.setDriver(new SimpleDockerDriver("/home/guillaume/cloudunit/cu-vagrant/certificats", isTLS));
+        dockerClient.setDriver(new SimpleDockerDriver("../cu-vagrant/certificats", isTLS));
 
         HostConfig hostConfig = HostConfigBuilder.aHostConfig()
                 .withVolumesFrom(new ArrayList<>())

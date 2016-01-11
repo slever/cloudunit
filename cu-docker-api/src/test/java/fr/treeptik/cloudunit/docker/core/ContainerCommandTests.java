@@ -39,7 +39,7 @@ public class ContainerCommandTests {
         }
 
         dockerClient = new DockerClient();
-        dockerClient.setDriver(new SimpleDockerDriver("/home/guillaume/cloudunit/cu-vagrant/certificats", isTLS));
+        dockerClient.setDriver(new SimpleDockerDriver("../cu-vagrant/certificats", isTLS));
     }
 
     @Before
