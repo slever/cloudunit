@@ -18,6 +18,7 @@ package fr.treeptik.cloudunit.controller;
 import fr.treeptik.cloudunit.aspects.CloudUnitSecurable;
 import fr.treeptik.cloudunit.dto.*;
 import fr.treeptik.cloudunit.exception.CheckException;
+import fr.treeptik.cloudunit.exception.DockerJSONException;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.manager.ApplicationManager;
 import fr.treeptik.cloudunit.model.Application;
@@ -105,7 +106,7 @@ public class ApplicationController
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public JsonResponse createApplication(@RequestBody JsonInput input)
-            throws ServiceException, CheckException, InterruptedException {
+            throws ServiceException, CheckException, InterruptedException, DockerJSONException {
 
         // validate the input
         input.validateCreateApp();

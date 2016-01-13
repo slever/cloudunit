@@ -47,7 +47,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 /*
- * Controller for resources (files + folders) into Container.
+ * Controller for resources (files + folders) into DockerContainer.
  *
  * TODO : ADD Status Application management. UseCase : disable user action durant long time download/upload
  *

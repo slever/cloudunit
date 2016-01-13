@@ -4,7 +4,7 @@ import fr.treeptik.cloudunit.docker.builders.ConfigBuilder;
 import fr.treeptik.cloudunit.docker.builders.ContainerBuilder;
 import fr.treeptik.cloudunit.docker.builders.HostConfigBuilder;
 import fr.treeptik.cloudunit.docker.model.Config;
-import fr.treeptik.cloudunit.docker.model.Container;
+import fr.treeptik.cloudunit.docker.model.DockerContainer;
 import fr.treeptik.cloudunit.docker.model.HostConfig;
 import fr.treeptik.cloudunit.exception.DockerJSONException;
 import fr.treeptik.cloudunit.utils.ContainerUtils;
@@ -28,7 +28,7 @@ public class ContainerCommandTests {
     private static DockerClient dockerClient;
     private static final String CONTAINER_NAME = "myContainer";
     private final int RUNNING_CONTAINERS = 7;
-    private static Container container;
+    private static DockerContainer container;
 
     @BeforeClass
     public static void setupClass() {
@@ -73,7 +73,7 @@ public class ContainerCommandTests {
 
     @After
     public void tearDown() throws Exception {
-        Container container = ContainerBuilder.aContainer()
+        DockerContainer container = ContainerBuilder.aContainer()
                 .withName(CONTAINER_NAME)
                 .build();
         dockerClient.removeContainer(container, DOCKER_HOST);

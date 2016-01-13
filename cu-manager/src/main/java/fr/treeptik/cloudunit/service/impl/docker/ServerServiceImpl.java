@@ -18,8 +18,9 @@ package fr.treeptik.cloudunit.service.impl.docker;
 import fr.treeptik.cloudunit.dao.ApplicationDAO;
 import fr.treeptik.cloudunit.dao.PortToOpenDAO;
 import fr.treeptik.cloudunit.dao.ServerDAO;
+import fr.treeptik.cloudunit.docker.core.DockerClient;
+import fr.treeptik.cloudunit.docker.core.SimpleDockerDriver;
 import fr.treeptik.cloudunit.docker.model.DockerContainer;
-import fr.treeptik.cloudunit.docker.model.DockerContainerBuilder;
 import fr.treeptik.cloudunit.exception.CheckException;
 import fr.treeptik.cloudunit.exception.DockerJSONException;
 import fr.treeptik.cloudunit.exception.ServiceException;
@@ -47,6 +48,22 @@ public class ServerServiceImpl
         implements ServerService {
 
     private Logger logger = LoggerFactory.getLogger(ServerServiceImpl.class);
+
+    private static boolean isTLS = true;
+
+    private static String DOCKER_HOST = "cloudunit.dev:2376";
+
+    static {
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.indexOf("mac") >= 0) {
+            isTLS = false;
+            DOCKER_HOST = "cloudunit.dev:4243";
+        }
+    }
+
+    private DockerClient dockerClient = new DockerClient(null,
+            DOCKER_HOST,
+            new SimpleDockerDriver("../cu-vagrant/certificats", isTLS));
 
     @Inject
     private ServerDAO serverDAO;
@@ -135,10 +152,6 @@ public class ServerServiceImpl
         logger.info("ServerService : Starting creating Server "
                 + server.getName());
 
-        // Initialize container informations :
-        DockerContainer dockerContainer = new DockerContainer();
-        Map<String, String> ports = new HashMap<String, String>();
-
         // General informations
         String dockerManagerIP = server.getApplication().getManagerIp();
         server.setStatus(Status.PENDING);
@@ -166,35 +179,18 @@ public class ServerServiceImpl
 
         logger.debug("imagePath:" + imagePath);
 
-        List<String> volumesFrom = new ArrayList<>();
-
-
-        if (!server.getImage().getName().contains("fatjar")) {
-            volumesFrom.add(server.getImage().getName());
-        }
-        volumesFrom.add("java");
-        dockerContainer = new DockerContainerBuilder()
-                .withName(containerName)
-                .withImage(imagePath)
-                .withMemory(0L)
-                .withMemorySwap(0L)
-                .withPorts(ports)
-                .withVolumesFrom(volumesFrom)
-                .withCmd(
-                        Arrays.asList(user.getLogin(), user.getPassword(), server
-                                        .getApplication().getRestHost(), server
-                                        .getApplication().getName(),
-                                "jdk1.7.0_55", databasePassword, envExec)).build();
+        DockerContainer dockerContainer = ContainerUtils.newCreateInstance(containerName, imagePath +":dev",
+                Arrays.asList("java", server.getImage().getName()),
+                Arrays.asList(user.getLogin(), user.getPassword(), server
+                                .getApplication().getRestHost(), server
+                                .getApplication().getName(),
+                        "jdk1.7.0_55", databasePassword, envExec));
 
         try {
             // create a container and get informations
-            DockerContainer.create(dockerContainer,
-                    application.getManagerIp());
+            dockerClient.createContainer(dockerContainer);
 
             logger.debug("container : " + dockerContainer);
-
-            dockerContainer = DockerContainer.findOne(dockerContainer,
-                    application.getManagerIp());
 
             String subdomain = System.getenv("CU_SUB_DOMAIN");
             if (subdomain == null) {
@@ -203,8 +199,11 @@ public class ServerServiceImpl
             logger.info("env.CU_SUB_DOMAIN=" + subdomain);
 
             server.getApplication().setSuffixCloudUnitIO(subdomain + suffixCloudUnitIO);
-            DockerContainer.start(dockerContainer, application.getManagerIp());
-            dockerContainer = DockerContainer.findOne(dockerContainer, application.getManagerIp());
+            dockerContainer = ContainerUtils.newStartInstance(dockerContainer.getName(), null, null, null);
+
+            dockerClient.startContainer(dockerContainer);
+
+            dockerContainer = dockerClient.findContainer(dockerContainer);
 
             server = containerMapper.mapDockerContainerToServer(dockerContainer, server);
             server = serverDAO.saveAndFlush(server);
@@ -231,19 +230,9 @@ public class ServerServiceImpl
 
             server = this.update(server);
 
-            Thread.sleep(3000);
-
         } catch (PersistenceException e) {
             logger.error("ServerService Error : Create Server " + e);
-            try {
-                // Removing a creating container if an error has occurred with
-                // the database
-                DockerContainer.remove(dockerContainer,
-                        application.getManagerIp());
-            } catch (DockerJSONException e1) {
-                logger.error("ServerService Error : Create Server " + e1);
-                throw new ServiceException(e.getLocalizedMessage(), e1);
-            }
+
             throw new ServiceException(e.getLocalizedMessage(), e);
         } catch (DockerJSONException e) {
             StringBuilder msgError = new StringBuilder(512);
@@ -251,11 +240,6 @@ public class ServerServiceImpl
             msgError.append(", tagName=[").append(tagName).append("]");
             logger.error("" + msgError, e);
             throw new ServiceException(msgError.toString(), e);
-        } catch (InterruptedException e) {
-            StringBuilder msgError = new StringBuilder(512);
-            msgError.append("server=").append(server);
-            msgError.append(", tagName=[").append(tagName).append("]");
-            logger.error("" + msgError, e);
         }
         logger.info("ServerService : Server " + server.getName()
                 + " successfully created.");
@@ -364,33 +348,18 @@ public class ServerServiceImpl
             Application application = server.getApplication();
 
             // Remove container on docker manager :
-            DockerContainer dockerContainer = new DockerContainer();
-            dockerContainer.setName(server.getName());
-            dockerContainer.setImage(server.getImage().getName());
+            DockerContainer dockerContainer = ContainerUtils.newStartInstance(server.getName(), null, null, null);
 
             if (server.getStatus().equals(Status.START)) {
-                DockerContainer.stop(dockerContainer,
-                        application.getManagerIp());
-                Thread.sleep(1000);
+                dockerClient.stopContainer(dockerContainer);
             }
 
             server.setStatus(Status.PENDING);
             server = this.saveInDB(server);
 
-            String imageName = DockerContainer.findOne(dockerContainer,
-                    application.getManagerIp()).getImage();
 
-            DockerContainer.remove(dockerContainer,
-                    application.getManagerIp());
+            dockerClient.removeContainer(dockerContainer);
 
-            try {
-                if (application.isAClone()) {
-                    DockerContainer.deleteImage(imageName,
-                            application.getManagerIp());
-                }
-            } catch (DockerJSONException e) {
-                logger.info("Others apps use this docker images");
-            }
 
             // Remove server on cloudunit :
             hipacheRedisUtils.removeServerAddress(application);
@@ -407,8 +376,6 @@ public class ServerServiceImpl
             logger.error("ServerService Error : fail to remove Server" + e);
             throw new ServiceException("Error docker :  "
                     + e.getLocalizedMessage(), e);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         return server;
     }
@@ -487,13 +454,11 @@ public class ServerServiceImpl
         try {
             Application application = server.getApplication();
 
-            DockerContainer dockerContainer = new DockerContainer();
-            dockerContainer.setName(server.getName());
-            dockerContainer.setImage(server.getImage().getName());
+            DockerContainer dockerContainer = ContainerUtils.newStartInstance(server.getName(), null, null, null);
 
 
-            DockerContainer.start(dockerContainer, application.getManagerIp());
-            dockerContainer = DockerContainer.findOne(dockerContainer, application.getManagerIp());
+            dockerClient.startContainer(dockerContainer);
+            dockerContainer = dockerClient.findContainer(dockerContainer);
             server = containerMapper.mapDockerContainerToServer(dockerContainer, server);
 
             String dockerManagerIP = server.getApplication().getManagerIp();
@@ -526,14 +491,11 @@ public class ServerServiceImpl
         try {
             Application application = server.getApplication();
 
-            DockerContainer dockerContainer = new DockerContainer();
-            dockerContainer.setName(server.getName());
-            dockerContainer.setImage(server.getImage().getName());
-            DockerContainer.stop(dockerContainer, application.getManagerIp());
-            dockerContainer = DockerContainer.findOne(dockerContainer,
-                    application.getManagerIp());
-            server.setDockerState(dockerContainer.getState());
+            DockerContainer dockerContainer = ContainerUtils.newStartInstance(server.getName(), null, null, null);
 
+            dockerClient.stopContainer(dockerContainer);
+            dockerContainer = dockerClient.findContainer(dockerContainer);
+            server.setDockerState(dockerContainer.getState().toString());
             server.setStatus(Status.STOP);
             server = update(server);
         } catch (PersistenceException e) {

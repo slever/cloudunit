@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by guillaume on 21/10/15.
  */
-public class Container implements Serializable {
+public class DockerContainer implements Serializable {
 
     @JsonProperty("Config")
     private Config config;

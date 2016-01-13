@@ -44,21 +44,11 @@ public class ContainerMapper
         container.setContainerID(dockerContainer.getId().substring(0, 12));
         container.setContainerFullID(dockerContainer.getId());
         container.setName(dockerContainer.getName());
-        container.setMemorySize(dockerContainer.getMemory());
-        container.setMemorySize(dockerContainer.getMemorySwap());
-        container.setContainerIP(dockerContainer.getIp());
-
-        container.setDockerState(dockerContainer.getState());
-
-        // Set sshPort and delete it from global list port.
-        container.setSshPort(dockerContainer.getPorts().get("22/tcp"));
-        dockerContainer.getPorts().remove("22/tcp");
-
-        container.setListPorts(dockerContainer.getPorts());
-
-        container.setVolumes(dockerContainer.getVolumes());
-        container.setVolumesFrom(dockerContainer.getVolumesFrom());
-
+        container.setMemorySize(dockerContainer.getConfig().getMemory());
+        container.setMemorySize(dockerContainer.getConfig().getMemorySwap());
+        container.setContainerIP(dockerContainer.getNetworkSettings().getIPAddress());
+        container.setDockerState(dockerContainer.getState().toString());
+        // Set sshPort and delete it from global list port
         return container;
 
     }

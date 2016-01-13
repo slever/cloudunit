@@ -207,7 +207,7 @@ public class FileServiceImpl
     }
 
     /**
-     * List the files by Container and Path
+     * List the files by DockerContainer and Path
      *
      * @param containerId
      * @param path

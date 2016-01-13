@@ -50,24 +50,26 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"fr.treeptik.cloudunit.controller",
-    "fr.treeptik.cloudunit.dao", "fr.treeptik.cloudunit.docker",
-    "fr.treeptik.cloudunit.docker.model", "fr.treeptik.cloudunit.config",
-    "fr.treeptik.cloudunit.exception", "fr.treeptik.cloudunit.model",
-    "fr.treeptik.cloudunit.service", "fr.treeptik.cloudunit.service.impl.docker",
-    "fr.treeptik.cloudunit.service.impl.tutum","fr.treeptik.cloudunit.manager",
-    "fr.treeptik.cloudunit.utils", "fr.treeptik.cloudunit.aspects",
-    "fr.treeptik.cloudunit.manager.impl.tutum","fr.treeptik.cloudunit.manager.impl.docker",
-    "fr.treeptik.cloudunit.monitor", "fr.treeptik.cloudunit.monitor.tasks"
+        "fr.treeptik.cloudunit.dao", "fr.treeptik.cloudunit.docker",
+        "fr.treeptik.cloudunit.docker.model", "fr.treeptik.cloudunit.config",
+        "fr.treeptik.cloudunit.exception", "fr.treeptik.cloudunit.model",
+        "fr.treeptik.cloudunit.service", "fr.treeptik.cloudunit.service.impl.docker",
+        "fr.treeptik.cloudunit.service.impl.tutum", "fr.treeptik.cloudunit.manager",
+        "fr.treeptik.cloudunit.utils", "fr.treeptik.cloudunit.aspects",
+        "fr.treeptik.cloudunit.manager.impl.tutum", "fr.treeptik.cloudunit.manager.impl.docker",
+        "fr.treeptik.cloudunit.monitor", "fr.treeptik.cloudunit.monitor.tasks"
 })
 @PropertySource({"classpath:/application.properties"})
 @PropertySource({"classpath:/maven.properties"})
 public class CloudUnitApplicationContext
-    extends WebMvcConfigurerAdapter {
+        extends WebMvcConfigurerAdapter {
 
     // Max file size
     private static final int MAX_UPLOAD_SIZE = 300 * 1000 * 1000;
 
     private final static Logger logger = LoggerFactory.getLogger(CloudUnitApplicationContext.class);
+
+
 
     /*
     @Override
@@ -79,16 +81,16 @@ public class CloudUnitApplicationContext
     @Bean
     @Profile("vagrant")
     public static PropertySourcesPlaceholderConfigurer properties()
-        throws Exception {
+            throws Exception {
         String OS = System.getProperty("os.name").toLowerCase();
         String file = "application-vagrant-linux.properties";
         if (OS.indexOf("mac") >= 0) {
             file = "application-vagrant-macos.properties";
         }
         PropertySourcesPlaceholderConfigurer pspc =
-            new PropertySourcesPlaceholderConfigurer();
+                new PropertySourcesPlaceholderConfigurer();
         Resource[] resources = new Resource[]
-            {new ClassPathResource(file)};
+                {new ClassPathResource(file)};
         pspc.setLocations(resources);
         pspc.setIgnoreUnresolvablePlaceholders(true);
         pspc.setLocalOverride(true);
@@ -98,25 +100,25 @@ public class CloudUnitApplicationContext
     @Bean
     @Profile("production")
     public static PropertySourcesPlaceholderConfigurer propertiesForProduction()
-        throws Exception {
+            throws Exception {
         PropertySourcesPlaceholderConfigurer pspc =
-            new PropertySourcesPlaceholderConfigurer();
+                new PropertySourcesPlaceholderConfigurer();
         File customFile = new File(System.getProperty("user.home") + "/.cloudunit/configuration.properties");
         Resource[] resources = null;
         if (customFile.exists()) {
             resources =
-                new Resource[]
-                    {
-                        new ClassPathResource("application-production.properties"),
-                        new FileSystemResource(new File(System.getProperty("user.home") + "/.cloudunit/configuration.properties"))
-                    };
+                    new Resource[]
+                            {
+                                    new ClassPathResource("application-production.properties"),
+                                    new FileSystemResource(new File(System.getProperty("user.home") + "/.cloudunit/configuration.properties"))
+                            };
         } else {
             logger.error(customFile.getAbsolutePath() + " is missing. It could generate configuration error");
             resources =
-                new Resource[]
-                    {
-                        new ClassPathResource("application-production.properties"),
-                    };
+                    new Resource[]
+                            {
+                                    new ClassPathResource("application-production.properties"),
+                            };
         }
         pspc.setLocations(resources);
         pspc.setIgnoreUnresolvablePlaceholders(true);
@@ -127,16 +129,16 @@ public class CloudUnitApplicationContext
     @Bean
     @Profile("integration")
     public static PropertySourcesPlaceholderConfigurer propertiesForIntegration()
-        throws Exception {
+            throws Exception {
         String OS = System.getProperty("os.name").toLowerCase();
         String file = "application-integration-linux.properties";
         if (OS.indexOf("mac") >= 0) {
             file = "application-integration-macos.properties";
         }
         PropertySourcesPlaceholderConfigurer pspc =
-            new PropertySourcesPlaceholderConfigurer();
+                new PropertySourcesPlaceholderConfigurer();
         Resource[] resources = new Resource[]
-            {new ClassPathResource(file)};
+                {new ClassPathResource(file)};
         pspc.setLocations(resources);
         pspc.setIgnoreUnresolvablePlaceholders(true);
         pspc.setLocalOverride(true);
@@ -146,11 +148,11 @@ public class CloudUnitApplicationContext
     @Bean
     @Profile("test")
     public static PropertySourcesPlaceholderConfigurer propertiesForTest()
-        throws Exception {
+            throws Exception {
         PropertySourcesPlaceholderConfigurer pspc =
-            new PropertySourcesPlaceholderConfigurer();
+                new PropertySourcesPlaceholderConfigurer();
         Resource[] resources = new Resource[]
-            {new ClassPathResource("application-test.properties")};
+                {new ClassPathResource("application-test.properties")};
         pspc.setLocations(resources);
         pspc.setIgnoreUnresolvablePlaceholders(true);
         pspc.setLocalOverride(true);
@@ -179,7 +181,7 @@ public class CloudUnitApplicationContext
 
     @Override
     public void configureDefaultServletHandling(
-        DefaultServletHandlerConfigurer configurer) {
+            DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
 
@@ -193,7 +195,7 @@ public class CloudUnitApplicationContext
 
     @Override
     public void configureMessageConverters(
-        List<HttpMessageConverter<?>> converters) {
+            List<HttpMessageConverter<?>> converters) {
         converters.add(jacksonMessageConverter());
         super.configureMessageConverters(converters);
     }
@@ -218,5 +220,6 @@ public class CloudUnitApplicationContext
         multipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE);
         return multipartResolver;
     }
+
 
 }

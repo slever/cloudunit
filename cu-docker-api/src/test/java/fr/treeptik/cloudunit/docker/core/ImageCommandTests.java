@@ -5,7 +5,7 @@ import fr.treeptik.cloudunit.docker.builders.ContainerBuilder;
 import fr.treeptik.cloudunit.docker.builders.HostConfigBuilder;
 import fr.treeptik.cloudunit.docker.builders.ImageBuilder;
 import fr.treeptik.cloudunit.docker.model.Config;
-import fr.treeptik.cloudunit.docker.model.Container;
+import fr.treeptik.cloudunit.docker.model.DockerContainer;
 import fr.treeptik.cloudunit.docker.model.HostConfig;
 import fr.treeptik.cloudunit.docker.model.Image;
 import fr.treeptik.cloudunit.exception.DockerJSONException;
@@ -61,7 +61,7 @@ public class ImageCommandTests {
                 .withMemory(0L)
                 .withMemorySwap(0L)
                 .build();
-        Container container = ContainerBuilder.aContainer().withName(CONTAINER_NAME).withConfig(config).build();
+        DockerContainer container = ContainerBuilder.aContainer().withName(CONTAINER_NAME).withConfig(config).build();
         try {
             dockerClient.setDriver(new SimpleDockerDriver("../cu-vagrant/certificats", isTLS));
             dockerClient.createContainer(container, DOCKER_HOST);
@@ -72,7 +72,7 @@ public class ImageCommandTests {
 
     @AfterClass
     public static void tearDown() throws DockerJSONException {
-        Container container = ContainerBuilder.aContainer()
+        DockerContainer container = ContainerBuilder.aContainer()
                 .withName(CONTAINER_NAME)
                 .build();
         dockerClient.removeContainer(container, DOCKER_HOST);
@@ -80,7 +80,7 @@ public class ImageCommandTests {
 
     @Test
     public void test00_commitAnImage() throws DockerJSONException {
-        Container container = ContainerBuilder.aContainer()
+        DockerContainer container = ContainerBuilder.aContainer()
                 .withName("myContainer")
                 .build();
         dockerClient.findContainer(container, DOCKER_HOST);

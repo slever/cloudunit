@@ -17,6 +17,7 @@ package fr.treeptik.cloudunit.service;
 
 import fr.treeptik.cloudunit.dto.ContainerUnit;
 import fr.treeptik.cloudunit.exception.CheckException;
+import fr.treeptik.cloudunit.exception.DockerJSONException;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.model.Application;
 import fr.treeptik.cloudunit.model.Status;
@@ -97,7 +98,7 @@ public interface ApplicationService {
             throws ServiceException;
 
     Application create(String applicationName, String login, String serverName, String tagName)
-            throws ServiceException, CheckException;
+            throws ServiceException, CheckException, DockerJSONException;
 
     void addPort(Application application, String nature, Integer port) throws ServiceException;
 

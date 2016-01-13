@@ -1,7 +1,6 @@
 package fr.treeptik.cloudunit.docker.builders;
 
 import fr.treeptik.cloudunit.docker.model.Config;
-import fr.treeptik.cloudunit.docker.model.Container;
 import fr.treeptik.cloudunit.docker.model.Image;
 
 /**

@@ -16,6 +16,7 @@
 package fr.treeptik.cloudunit.manager.impl.docker;
 
 import fr.treeptik.cloudunit.exception.CheckException;
+import fr.treeptik.cloudunit.exception.DockerJSONException;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.manager.ApplicationManager;
 import fr.treeptik.cloudunit.model.*;
@@ -68,7 +69,7 @@ public class ApplicationManagerImpl
      * @throws CheckException
      */
     public void create(final String applicationName, final String userLogin, final String serverName)
-            throws ServiceException, CheckException {
+            throws ServiceException, CheckException, DockerJSONException {
 
         Application application = applicationService.create(
                 applicationName, userLogin, serverName, null);

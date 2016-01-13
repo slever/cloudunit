@@ -4,7 +4,7 @@ import fr.treeptik.cloudunit.docker.builders.ConfigBuilder;
 import fr.treeptik.cloudunit.docker.builders.ContainerBuilder;
 import fr.treeptik.cloudunit.docker.builders.HostConfigBuilder;
 import fr.treeptik.cloudunit.docker.model.Config;
-import fr.treeptik.cloudunit.docker.model.Container;
+import fr.treeptik.cloudunit.docker.model.DockerContainer;
 import fr.treeptik.cloudunit.docker.model.HostConfig;
 import fr.treeptik.cloudunit.exception.DockerJSONException;
 import org.junit.*;
@@ -61,7 +61,7 @@ public class AdvancedCommandTests {
                 .withMemory(0L)
                 .withMemorySwap(0L)
                 .build();
-        Container container = ContainerBuilder.aContainer().withName(CONTAINER_NAME).withConfig(config).build();
+        DockerContainer container = ContainerBuilder.aContainer().withName(CONTAINER_NAME).withConfig(config).build();
         try {
             dockerClient.createContainer(container, DOCKER_HOST);
             hostConfig = HostConfigBuilder.aHostConfig()
@@ -85,7 +85,7 @@ public class AdvancedCommandTests {
 
     @AfterClass
     public static void tearDown() throws DockerJSONException {
-        Container container = ContainerBuilder.aContainer()
+        DockerContainer container = ContainerBuilder.aContainer()
                 .withName(CONTAINER_NAME)
                 .build();
         dockerClient.removeContainer(container, DOCKER_HOST);
@@ -93,7 +93,7 @@ public class AdvancedCommandTests {
 
     @Test
     public void test00_execCommand() throws DockerJSONException {
-        Container container = ContainerBuilder.aContainer()
+        DockerContainer container = ContainerBuilder.aContainer()
                 .withName("myContainer")
                 .build();
         container = dockerClient.findContainer(container, DOCKER_HOST);

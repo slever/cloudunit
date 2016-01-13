@@ -17,9 +17,11 @@ package fr.treeptik.cloudunit.service.impl.docker;
 
 import fr.treeptik.cloudunit.dao.ApplicationDAO;
 import fr.treeptik.cloudunit.dao.PortToOpenDAO;
-import fr.treeptik.cloudunit.docker.model.DockerContainer;
+import fr.treeptik.cloudunit.docker.core.DockerClient;
+import fr.treeptik.cloudunit.docker.core.SimpleDockerDriver;
 import fr.treeptik.cloudunit.dto.ContainerUnit;
 import fr.treeptik.cloudunit.exception.CheckException;
+import fr.treeptik.cloudunit.exception.DockerJSONException;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.model.*;
 import fr.treeptik.cloudunit.service.*;
@@ -43,6 +45,18 @@ import java.util.*;
 @Service
 public class ApplicationServiceImpl
         implements ApplicationService {
+
+    private static boolean isTLS = true;
+
+    private static String DOCKER_HOST = "cloudunit.dev:2376";
+
+    static {
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.indexOf("mac") >= 0) {
+            isTLS = false;
+            DOCKER_HOST = "cloudunit.dev:4243";
+        }
+    }
 
     Locale locale = Locale.ENGLISH;
 
@@ -88,6 +102,11 @@ public class ApplicationServiceImpl
     @Inject
     private MessageSource messageSource;
 
+
+    private DockerClient dockerClient = new DockerClient(null,
+            DOCKER_HOST,
+            new SimpleDockerDriver("../cu-vagrant/certificats", isTLS));
+
     @Value("${cloudunit.max.apps:100}")
     private String numberMaxApplications;
 
@@ -121,12 +140,14 @@ public class ApplicationServiceImpl
 
         logger.debug("--CHECK APP COUNT--");
 
+
         if (this.countApp(application.getUser()) >= Integer.parseInt(numberMaxApplications)) {
             throw new ServiceException("You have already created your " + numberMaxApplications
                     + " apps into the Cloud");
         }
 
         try {
+
             if (checkAppExist(application.getUser(), application.getName())) {
                 throw new CheckException(messageSource.getMessage("app.exists",
                         null, locale));
@@ -273,8 +294,8 @@ public class ApplicationServiceImpl
 
             shellUtils.executeShell(command, configShellModule);
 
-            configShellServer.put("port", server.getSshPort());
-            configShellServer.put("dockerManagerAddress", server.getApplication().getManagerIp());
+            configShellServer.put("port", "22");
+            configShellServer.put("dockerManagerAddress", server.getContainerIP());
             configShellServer.put("password", rootPassword);
             command = ". /cloudunit/scripts/rm-auth-keys.sh ";
             logger.info("command shell to execute [" + command + "]");
@@ -407,8 +428,8 @@ public class ApplicationServiceImpl
     public Application create(String applicationName, String login,
                               String serverName, String tagName)
             throws ServiceException,
-            CheckException {
-
+            CheckException, DockerJSONException {
+        logger.info("containers list : " + dockerClient.findAllContainers().size());
         // if tagname is null, we prefix with a ":"
         if (tagName != null) {
             tagName = ":" + tagName;
@@ -814,6 +835,16 @@ public class ApplicationServiceImpl
     }
 
     @Override
+    public List<ContainerUnit> listContainers(String applicationName) throws ServiceException {
+        return null;
+    }
+
+    @Override
+    public List<String> listContainersId(String applicationName) throws ServiceException {
+        return null;
+    }
+
+    @Override
     public Long countApp(User user)
             throws ServiceException {
         try {
@@ -823,140 +854,6 @@ public class ApplicationServiceImpl
         }
     }
 
-    /**
-     * Liste des containers pour une application
-     *
-     * @param applicationName
-     * @return
-     * @throws ServiceException
-     */
-    public List<ContainerUnit> listContainers(String applicationName)
-            throws ServiceException {
-        return listContainers(applicationName, true);
-    }
-
-    public List<ContainerUnit> listContainers(String applicationName,
-                                              boolean withModules)
-            throws ServiceException {
-        List<ContainerUnit> containers = new ArrayList<>();
-        try {
-            Application application = findByNameAndUser(
-                    authentificationUtils.getAuthentificatedUser(),
-                    applicationName);
-            if (application != null) {
-                try {
-                    // Serveurs
-                    List<Server> servers = application.getServers();
-                    // Ajout des containers de type server
-                    for (Server server : servers) {
-                        DockerContainer dockerContainer = new DockerContainer();
-                        dockerContainer.setName(server.getName());
-                        dockerContainer = DockerContainer.findOne(
-                                dockerContainer, application.getManagerIp());
-                        server = containerMapper.mapDockerContainerToServer(
-                                dockerContainer, server);
-                        ContainerUnit containerUnit = new ContainerUnit(
-                                server.getName(), server.getContainerID(),
-                                "server");
-                        containers.add(containerUnit);
-                    }
-                    if (withModules) {
-                        // Ajout des containers de type module
-                        List<Module> modules = application.getModules();
-                        for (Module module : modules) {
-                            // on evite de remonter les modules de type toolkit
-                            // (git, maven...)
-                            if (module.isTool()) {
-                                continue;
-                            }
-                            DockerContainer dockerContainer = new DockerContainer();
-                            dockerContainer.setName(module.getName());
-                            dockerContainer = DockerContainer.findOne(
-                                    dockerContainer,
-                                    application.getManagerIp());
-                            module = containerMapper
-                                    .mapDockerContainerToModule(
-                                            dockerContainer, module);
-                            ContainerUnit containerUnit = new ContainerUnit(
-                                    module.getName(), module.getContainerID(),
-                                    "module");
-                            containers.add(containerUnit);
-                        }
-                    }
-                } catch (Exception ex) {
-                    // Si une application sort en erreur, il ne faut pas
-                    // arrêter la suite des traitements
-                    logger.error(application.toString(), ex);
-                }
-            }
-
-        } catch (Exception e) {
-            throw new ServiceException(e.getLocalizedMessage(), e);
-        }
-        return containers;
-    }
-
-    /**
-     * Liste des containers pour une application
-     *
-     * @param applicationName
-     * @return
-     * @throws ServiceException
-     */
-    public List<String> listContainersId(String applicationName)
-            throws ServiceException {
-        return listContainersId(applicationName, false);
-    }
-
-    public List<String> listContainersId(String applicationName,
-                                         boolean withModules)
-            throws ServiceException {
-        List<String> containers = new ArrayList<>();
-        try {
-            Application application = findByNameAndUser(
-                    authentificationUtils.getAuthentificatedUser(),
-                    applicationName);
-            if (application != null) {
-                try {
-                    // Serveurs
-                    List<Server> servers = application.getServers();
-                    // Ajout des containers de type server
-                    for (Server server : servers) {
-                        DockerContainer dockerContainer = new DockerContainer();
-                        dockerContainer.setName(server.getName());
-                        dockerContainer = DockerContainer.findOne(
-                                dockerContainer, application.getManagerIp());
-                        server = containerMapper.mapDockerContainerToServer(
-                                dockerContainer, server);
-                        containers.add(server.getContainerID());
-                    }
-                    // Ajout des containers de type module
-                    if (withModules) {
-                        List<Module> modules = application.getModules();
-                        for (Module module : modules) {
-                            DockerContainer dockerContainer = new DockerContainer();
-                            dockerContainer.setName(module.getName());
-                            dockerContainer = DockerContainer.findOne(
-                                    dockerContainer,
-                                    application.getManagerIp());
-                            module = containerMapper
-                                    .mapDockerContainerToModule(
-                                            dockerContainer, module);
-                            containers.add(module.getContainerID());
-                        }
-                    }
-                } catch (Exception ex) {
-                    // Si une application sort en erreur, il ne faut pas
-                    // arrêter la suite des traitements
-                    logger.error(application.toString(), ex);
-                }
-            }
-
-        } catch (Exception e) {
-            throw new ServiceException(e.getLocalizedMessage(), e);
-        }
-        return containers;
-    }
 
     @Override
     public List<String> getListAliases(Application application)

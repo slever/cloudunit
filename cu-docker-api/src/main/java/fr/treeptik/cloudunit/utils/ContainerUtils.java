@@ -4,7 +4,7 @@ import fr.treeptik.cloudunit.docker.builders.ConfigBuilder;
 import fr.treeptik.cloudunit.docker.builders.ContainerBuilder;
 import fr.treeptik.cloudunit.docker.builders.HostConfigBuilder;
 import fr.treeptik.cloudunit.docker.model.Config;
-import fr.treeptik.cloudunit.docker.model.Container;
+import fr.treeptik.cloudunit.docker.model.DockerContainer;
 import fr.treeptik.cloudunit.docker.model.HostConfig;
 
 import java.util.Arrays;
@@ -17,10 +17,33 @@ import java.util.Map;
  */
 public class ContainerUtils {
 
-    public static Container newStartInstance(String name,
-                                             Map<String, String> ports,
-                                             List<String> volumesFrom,
-                                             List<String> volumes) {
+
+    public static DockerContainer newCreateInstance(String name, String image,
+                                                    List<String> volumesFrom, List<String> args) {
+        HostConfig hostConfig = HostConfigBuilder.aHostConfig()
+                .withVolumesFrom(volumesFrom)
+                .build();
+        Config config = ConfigBuilder.aConfig()
+                .withAttachStdin(Boolean.FALSE)
+                .withAttachStdout(Boolean.TRUE)
+                .withAttachStderr(Boolean.TRUE)
+                .withCmd(args)
+                .withImage(image)
+                .withHostConfig(hostConfig)
+                .withMemory(0L)
+                .withMemorySwap(0L)
+                .build();
+        DockerContainer container = ContainerBuilder.aContainer()
+                .withName(name)
+                .withConfig(config)
+                .build();
+        return container;
+    }
+
+    public static DockerContainer newStartInstance(String name,
+                                                   Map<String, String> ports,
+                                                   List<String> volumesFrom,
+                                                   List<String> volumes) {
         HostConfig hostConfig = HostConfigBuilder.aHostConfig()
                 .withBinds(volumes)
                 .withPortBindings(buildPortBindingBody(ports))
@@ -30,7 +53,7 @@ public class ContainerUtils {
         Config config = ConfigBuilder.aConfig()
                 .withHostConfig(hostConfig)
                 .build();
-        Container container = ContainerBuilder.aContainer()
+        DockerContainer container = ContainerBuilder.aContainer()
                 .withName(name)
                 .withConfig(config).build();
         return container;

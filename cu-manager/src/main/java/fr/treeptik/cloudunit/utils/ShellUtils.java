@@ -80,9 +80,7 @@ public class ShellUtils {
         InputStream in = null;
 
         Map<String, String> map = new HashMap<>();
-        String dockerManagerIP = configShell.get("dockerManagerAddress")
-            .substring(0,
-                configShell.get("dockerManagerAddress").length() - 5);
+        String dockerManagerIP = configShell.get("dockerManagerAddress");
         try {
 
             if (configShell.containsKey("userLogin")) {

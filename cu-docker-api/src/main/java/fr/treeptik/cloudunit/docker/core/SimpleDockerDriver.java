@@ -19,7 +19,7 @@ package fr.treeptik.cloudunit.docker.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.treeptik.cloudunit.docker.model.Container;
+import fr.treeptik.cloudunit.docker.model.DockerContainer;
 import fr.treeptik.cloudunit.docker.model.ExecBody;
 import fr.treeptik.cloudunit.docker.model.ExecStartBody;
 import fr.treeptik.cloudunit.docker.model.Image;
@@ -43,7 +43,7 @@ public class SimpleDockerDriver implements DockerDriver {
 
     private String protocol;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
     public SimpleDockerDriver() {
         client = new JSONClient();
@@ -53,11 +53,12 @@ public class SimpleDockerDriver implements DockerDriver {
     public SimpleDockerDriver(String certPathDir, boolean isTLSActivated) {
         client = new JSONClient(certPathDir, isTLSActivated);
         protocol = isTLSActivated ? "https" : "http";
+        objectMapper = new ObjectMapper();
     }
 
 
     @Override
-    public DockerResponse find(Container container, String host) throws FatalDockerJSONException {
+    public DockerResponse find(DockerContainer container, String host) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;
@@ -105,7 +106,7 @@ public class SimpleDockerDriver implements DockerDriver {
     }
 
     @Override
-    public DockerResponse create(Container container, String host) throws FatalDockerJSONException {
+    public DockerResponse create(DockerContainer container, String host) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;
@@ -130,7 +131,7 @@ public class SimpleDockerDriver implements DockerDriver {
     }
 
     @Override
-    public DockerResponse start(Container container, String host) throws FatalDockerJSONException {
+    public DockerResponse start(DockerContainer container, String host) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;
@@ -157,7 +158,7 @@ public class SimpleDockerDriver implements DockerDriver {
     }
 
     @Override
-    public DockerResponse stop(Container container, String host) throws FatalDockerJSONException {
+    public DockerResponse stop(DockerContainer container, String host) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;
@@ -183,7 +184,7 @@ public class SimpleDockerDriver implements DockerDriver {
     }
 
     @Override
-    public DockerResponse kill(Container container, String host) throws FatalDockerJSONException {
+    public DockerResponse kill(DockerContainer container, String host) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;
@@ -206,7 +207,7 @@ public class SimpleDockerDriver implements DockerDriver {
     }
 
     @Override
-    public DockerResponse remove(Container container, String host) throws FatalDockerJSONException {
+    public DockerResponse remove(DockerContainer container, String host) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;
@@ -255,7 +256,7 @@ public class SimpleDockerDriver implements DockerDriver {
     }
 
     @Override
-    public DockerResponse commit(Container container, String host, String tag, String repository) throws FatalDockerJSONException {
+    public DockerResponse commit(DockerContainer container, String host, String tag, String repository) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;
@@ -380,7 +381,7 @@ public class SimpleDockerDriver implements DockerDriver {
     }
 
     @Override
-    public DockerResponse execCreate(Container container, ExecBody execBody, String host) throws FatalDockerJSONException {
+    public DockerResponse execCreate(DockerContainer container, ExecBody execBody, String host) throws FatalDockerJSONException {
         URI uri = null;
         String body = new String();
         DockerResponse dockerResponse = null;

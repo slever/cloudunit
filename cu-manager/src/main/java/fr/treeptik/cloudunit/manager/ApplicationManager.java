@@ -16,6 +16,7 @@
 package fr.treeptik.cloudunit.manager;
 
 import fr.treeptik.cloudunit.exception.CheckException;
+import fr.treeptik.cloudunit.exception.DockerJSONException;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.model.Application;
 import fr.treeptik.cloudunit.model.User;
@@ -27,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ApplicationManager {
 
     public void create(final String applicationName, final String userLogin, final String serverName)
-        throws ServiceException, CheckException;
+            throws ServiceException, CheckException, DockerJSONException;
 
     public void start(Application application, User user)
         throws ServiceException, CheckException;

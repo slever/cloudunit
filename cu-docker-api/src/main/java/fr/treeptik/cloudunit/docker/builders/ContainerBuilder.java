@@ -1,7 +1,7 @@
 package fr.treeptik.cloudunit.docker.builders;
 
 import fr.treeptik.cloudunit.docker.model.Config;
-import fr.treeptik.cloudunit.docker.model.Container;
+import fr.treeptik.cloudunit.docker.model.DockerContainer;
 import fr.treeptik.cloudunit.docker.model.HostConfig;
 
 import java.util.List;
@@ -149,8 +149,8 @@ public class ContainerBuilder {
         return aContainer().withConfig(config).withAppArmorProfile(appArmorProfile).withArgs(args).withCreated(created).withDriver(driver).withExecDriver(execDriver).withExecIDs(execIDs).withHostConfig(hostConfig).withHostnamePath(hostnamePath).withHostsPath(hostsPath).withLogPath(logPath).withId(id).withImage(image).withMountLabel(mountLabel).withName(name).withPath(path).withProcessLabel(processLabel).withResolvConfPath(resolvConfPath).withRestartCount(restartCount).withVolumes(volumes).withVolumesRW(volumesRW);
     }
 
-    public Container build() {
-        Container container = new Container();
+    public DockerContainer build() {
+        DockerContainer container = new DockerContainer();
         container.setConfig(config);
         container.setAppArmorProfile(appArmorProfile);
         container.setArgs(args);
