@@ -160,8 +160,64 @@ public class HostConfig implements Serializable {
     @JsonProperty("OomScoreAdj")
     private String oomScoreAdj;
 
+    public String getBlkioDeviceReadBps() {
+        return BlkioDeviceReadBps;
+    }
+
+    public void setBlkioDeviceReadBps(String blkioDeviceReadBps) {
+        BlkioDeviceReadBps = blkioDeviceReadBps;
+    }
+
+    public String getBlkioDeviceWriteBps() {
+        return BlkioDeviceWriteBps;
+    }
+
+    public void setBlkioDeviceWriteBps(String blkioDeviceWriteBps) {
+        BlkioDeviceWriteBps = blkioDeviceWriteBps;
+    }
+
+    public String getBlkioDeviceReadIOps() {
+        return BlkioDeviceReadIOps;
+    }
+
+    public void setBlkioDeviceReadIOps(String blkioDeviceReadIOps) {
+        BlkioDeviceReadIOps = blkioDeviceReadIOps;
+    }
+
+    public String getBlkioDeviceWriteIOps() {
+        return BlkioDeviceWriteIOps;
+    }
+
+    public void setBlkioDeviceWriteIOps(String blkioDeviceWriteIOps) {
+        BlkioDeviceWriteIOps = blkioDeviceWriteIOps;
+    }
+
+    @JsonProperty("BlkioDeviceWriteIOps")
+    private String BlkioDeviceWriteIOps;
+
+    @JsonProperty("BlkioDeviceReadIOps")
+    private String BlkioDeviceReadIOps;
+
+    @JsonProperty("BlkioDeviceWriteBps")
+    private String BlkioDeviceWriteBps;
+
+    @JsonProperty("BlkioDeviceReadBps")
+    private String BlkioDeviceReadBps;
+
     @JsonProperty("BlkioWeightDevice")
     private String BlkioWeightDevice;
+
+    public String getPidsLimit() {
+        return PidsLimit;
+    }
+
+    public void setPidsLimit(String pidsLimit) {
+        PidsLimit = pidsLimit;
+    }
+
+    @JsonProperty("PidsLimit")
+
+    private String PidsLimit;
 
     public String getBlkioWeightDevice() {
         return BlkioWeightDevice;
