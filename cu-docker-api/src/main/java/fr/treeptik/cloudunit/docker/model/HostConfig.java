@@ -56,8 +56,12 @@ public class HostConfig implements Serializable {
     @JsonProperty("Devices")
     private List<String> devices;
 
+    public void setDns(List<String> dns) {
+        this.dns = dns;
+    }
+
     @JsonProperty("Dns")
-    private String dns;
+    private List<String> dns;
 
     @JsonProperty("DnsSearch")
     private String dnsSearch;
@@ -129,8 +133,51 @@ public class HostConfig implements Serializable {
     private List<Long> consoleSize;
 
     @JsonProperty("VolumeDriver")
-    private String olumeDriver;
+    private String volumeDriver;
 
+    @JsonProperty("ShmSize")
+    private String ShmSize;
+
+    public String getShmSize() {
+        return ShmSize;
+    }
+
+    public void setShmSize(String shmSize) {
+        ShmSize = shmSize;
+    }
+
+    public String getOomScoreAdj() {
+        return oomScoreAdj;
+    }
+
+    public void setOomScoreAdj(String oomScoreAdj) {
+        oomScoreAdj = oomScoreAdj;
+    }
+
+    @JsonProperty("Isolation")
+    private String isolation;
+
+    @JsonProperty("OomScoreAdj")
+    private String oomScoreAdj;
+
+    @JsonProperty("BlkioWeightDevice")
+    private String BlkioWeightDevice;
+
+    public String getBlkioWeightDevice() {
+        return BlkioWeightDevice;
+    }
+
+    public void setBlkioWeightDevice(String blkioWeightDevice) {
+        BlkioWeightDevice = blkioWeightDevice;
+    }
+
+    public String getIsolation() {
+        return isolation;
+    }
+
+    public void setIsolation(String isolation) {
+        this.isolation = isolation;
+    }
 
     public Boolean getPrivileged() {
         return privileged;
@@ -250,14 +297,6 @@ public class HostConfig implements Serializable {
 
     public void setDevices(List<String> devices) {
         this.devices = devices;
-    }
-
-    public String getDns() {
-        return dns;
-    }
-
-    public void setDns(String dns) {
-        this.dns = dns;
     }
 
     public String getDnsSearch() {

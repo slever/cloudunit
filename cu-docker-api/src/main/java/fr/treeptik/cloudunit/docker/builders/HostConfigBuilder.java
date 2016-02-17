@@ -24,7 +24,7 @@ public class HostConfigBuilder {
     private Long cpuShares;
     private Long cpuPeriod;
     private List<String> devices;
-    private String dns;
+    private List<String> dns;
     private String dnsSearch;
     private String extraHosts;
     private String ipcMode;
@@ -119,7 +119,7 @@ public class HostConfigBuilder {
         return this;
     }
 
-    public HostConfigBuilder withDns(String dns) {
+    public HostConfigBuilder withDns(List<String> dns) {
         this.dns = dns;
         return this;
     }
