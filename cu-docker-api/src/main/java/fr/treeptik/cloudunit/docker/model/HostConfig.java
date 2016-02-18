@@ -60,11 +60,86 @@ public class HostConfig implements Serializable {
         this.dns = dns;
     }
 
+    public List<String> getDns() {
+        return dns;
+    }
+
+    public Long getKernelMemory() {
+        return kernelMemory;
+    }
+
+    public void setKernelMemory(Long kernelMemory) {
+        this.kernelMemory = kernelMemory;
+    }
+
+    public Long getCpuQuota() {
+        return cpuQuota;
+    }
+
+    public void setCpuQuota(Long cpuQuota) {
+        this.cpuQuota = cpuQuota;
+    }
+
+    public Boolean getMemorySwappiness() {
+        return memorySwappiness;
+    }
+
+    public void setMemorySwappiness(Boolean memorySwappiness) {
+        this.memorySwappiness = memorySwappiness;
+    }
+
+    public Boolean getGroupAdd() {
+        return groupAdd;
+    }
+
+    public void setGroupAdd(Boolean groupAdd) {
+        this.groupAdd = groupAdd;
+    }
+
+    public String getuTSMode() {
+        return uTSMode;
+    }
+
+    public void setuTSMode(String uTSMode) {
+        this.uTSMode = uTSMode;
+    }
+
+    public List<Long> getConsoleSize() {
+        return consoleSize;
+    }
+
+    public void setConsoleSize(List<Long> consoleSize) {
+        this.consoleSize = consoleSize;
+    }
+
+    public String getVolumeDriver() {
+        return volumeDriver;
+    }
+
+    public void setVolumeDriver(String volumeDriver) {
+        this.volumeDriver = volumeDriver;
+    }
+
     @JsonProperty("Dns")
     private List<String> dns;
 
     @JsonProperty("DnsSearch")
-    private String dnsSearch;
+    private List<String> dnsSearch;
+
+    public List<String> getDnsOptions() {
+        return dnsOptions;
+    }
+
+    public void setDnsOptions(List<String> dnsOptions) {
+        this.dnsOptions = dnsOptions;
+    }
+
+    @JsonProperty("DnsOptions")
+    private List<String> dnsOptions;
+
+    public void setDnsSearch(List<String> dnsSearch) {
+        this.dnsSearch = dnsSearch;
+    }
 
     @JsonProperty("ExtraHosts")
     private String extraHosts;
@@ -119,9 +194,6 @@ public class HostConfig implements Serializable {
 
     @JsonProperty("MemorySwappiness")
     private Boolean memorySwappiness;
-
-    @JsonProperty("DnsOptions")
-    private String dnsOptions;
 
     @JsonProperty("GroupAdd")
     private Boolean groupAdd;
@@ -353,14 +425,6 @@ public class HostConfig implements Serializable {
 
     public void setDevices(List<String> devices) {
         this.devices = devices;
-    }
-
-    public String getDnsSearch() {
-        return dnsSearch;
-    }
-
-    public void setDnsSearch(String dnsSearch) {
-        this.dnsSearch = dnsSearch;
     }
 
     public String getExtraHosts() {

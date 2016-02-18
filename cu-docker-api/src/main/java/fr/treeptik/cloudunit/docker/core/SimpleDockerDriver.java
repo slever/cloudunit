@@ -417,7 +417,7 @@ public class SimpleDockerDriver implements DockerDriver {
                     .setPath("/exec/" + execId + "/start")
                     .build();
             body = objectMapper.writeValueAsString(execStartBody);
-            dockerResponse = client.sendPost(uri, body, "application/vnd.docker.raw-stream");
+            dockerResponse = client.sendPost(uri, body, "application/json");
         } catch (URISyntaxException | JSONClientException | JsonProcessingException e) {
             StringBuilder contextError = new StringBuilder(256);
             contextError.append("uri : " + uri + " - ");

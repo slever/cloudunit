@@ -24,6 +24,17 @@ public class Mounts implements Serializable {
     @JsonProperty("Mode")
     private String mode;
 
+    public String getPropagation() {
+        return propagation;
+    }
+
+    public void setPropagation(String propagation) {
+        this.propagation = propagation;
+    }
+
+    @JsonProperty("Propagation")
+    private String propagation;
+
     @JsonProperty("RW")
     private Boolean readWrite;
 

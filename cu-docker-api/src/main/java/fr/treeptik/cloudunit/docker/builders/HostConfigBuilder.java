@@ -25,7 +25,8 @@ public class HostConfigBuilder {
     private Long cpuPeriod;
     private List<String> devices;
     private List<String> dns;
-    private String dnsSearch;
+    private List<String> dnsSearch;
+    private List<String> dnsOptions;
     private String extraHosts;
     private String ipcMode;
     private List<String> lxcConf;
@@ -124,7 +125,7 @@ public class HostConfigBuilder {
         return this;
     }
 
-    public HostConfigBuilder withDnsSearch(String dnsSearch) {
+    public HostConfigBuilder withDnsSearch(List<String> dnsSearch) {
         this.dnsSearch = dnsSearch;
         return this;
     }
@@ -202,6 +203,7 @@ public class HostConfigBuilder {
         hostConfig.setDevices(devices);
         hostConfig.setDns(dns);
         hostConfig.setDnsSearch(dnsSearch);
+        hostConfig.setDnsOptions(dnsOptions);
         hostConfig.setExtraHosts(extraHosts);
         hostConfig.setIpcMode(ipcMode);
         hostConfig.setLxcConf(lxcConf);

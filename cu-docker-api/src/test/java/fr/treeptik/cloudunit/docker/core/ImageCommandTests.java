@@ -55,7 +55,7 @@ public class ImageCommandTests {
                 .withCmd(Arrays.asList("/bin/bash", "/cloudunit/scripts/start-service.sh", "johndoe", "abc2015",
                         "192.168.2.116", "172.17.0.221", "aaaa",
                         "AezohghooNgaegh8ei2jabib2nuj9yoe", "main"))
-                .withImage("cloudunit/git:dev")
+                .withImage("cloudunit/git:latest")
                 .withHostConfig(hostConfig)
                 .withExposedPorts(new HashMap<>())
                 .withMemory(0L)
