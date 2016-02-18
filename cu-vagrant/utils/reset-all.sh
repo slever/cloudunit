@@ -52,7 +52,7 @@ function run_dead_containers
             echo -e "\nThe docker container ${CONT_NAME[$i]} has already been launched.\n"
         else
             echo -e "\nLaunching the docker container ${CONT_NAME[$i]}.\n"
-            docker run --name ${CONT_NAME[$i]} ${IMAGE_NAME[$i]}:dev
+            docker run --name ${CONT_NAME[$i]} ${IMAGE_NAME[$i]}:latest
         fi
     done
 }
@@ -70,3 +70,5 @@ todo_or_exit $1
 cleaning
 run_dead_containers
 run_platform
+
+
