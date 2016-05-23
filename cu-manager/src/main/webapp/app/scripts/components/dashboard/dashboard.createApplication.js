@@ -51,16 +51,16 @@
     vm.serverImages = [];
     vm.serverImageChoice = {};
     vm.serverImageSelect2 = undefined;
-    
     vm.group = [];
     vm.notValidated = true;
     vm.message = '';
     vm.isPending = false;
+    
     vm.createApplication = createApplication;
     vm.isValid = isValid;
 
     vm.selectConfig = {
-      optgroupField: 'prefixId',
+      optgroupField: 'idPrefixEnv',
       optgroupLabelField: 'title',
       maxItems: 1,
       valueField: 'id',
@@ -73,7 +73,7 @@
         }
       },
       onChange(value) {
-        vm.serverImageChoice =  vm.serverImages[vm.serverImages.map(function(x) {return x.id; }).indexOf(+value)];      
+        vm.serverImageChoice =  vm.serverImages[vm.serverImages.map(function(x) {return x.id; }).indexOf(+value)];
       }
     };
 
@@ -85,18 +85,26 @@
         .catch(error);
 
       function success(serverImages) {
-        vm.serverImages = serverImages;
+        //vm.serverImages = serverImages;
       
-         serverImages.forEach(function (element, index) {
-          var rang = vm.group.map(function(x) {return x.title; }).indexOf(serverImages[index].prefixEnv);
-          if(rang == -1) {
+        for(var i = 0; i < serverImages.length; i++) {
+          vm.serverImages[i] = serverImages[i];
+          var res = vm.group.map(function(x) {return x.title; }).indexOf(serverImages[i].prefixEnv);
+          if(res != -1) {    
+            vm.serverImages[i].idPrefixEnv = vm.group[res].idPrefixEnv;
+          } else {
+            var prefiEnv = serverImages[i].prefixEnv;
+            var idPrefixEnv = vm.group.length + 1;
+            vm.serverImages[i].idPrefixEnv = idPrefixEnv;
             vm.group.push({
-              id: serverImages[index].prefixId,
-              title: serverImages[index].prefixEnv,
-              prefixId: serverImages[index].prefixId
+              id: idPrefixEnv,
+              title: prefiEnv,
+              idPrefixEnv: idPrefixEnv
             });
           }
-         });
+      }
+/*       console.log(vm.group);
+       console.log( vm.serverImages);*/
 
         vm.serverImageChoice = serverImages[0];
       }
@@ -120,10 +128,6 @@
         vm.createAppForm.$setPristine();
         vm.applicationName = '';
         vm.isPending = false;
-        vm.serverImageSelect2 = undefined;
-        setTimeout(function() {
-          vm.serverImageChoice = vm.serverImages[0];
-        }, 1);
       }
 
       function error(response) {
@@ -133,20 +137,20 @@
     }
 
     function isValid(applicationName, serverName) {
-        ApplicationService.isValid(applicationName, serverName)
+      ApplicationService.isValid(applicationName, serverName)
         .then(success)
         .catch(error);
 
-        function success() {
-          vm.notValidated = false;
-          vm.message = '';
-        }
+      function success() {
+        vm.notValidated = false;
+        vm.message = '';
+      }
 
-        function error(response) {
-          vm.message = response.data.message;
-          vm.notValidated = true;
-          vm.isPending = false;
-        }     
+      function error(response) {
+        vm.message = response.data.message;
+        vm.notValidated = true;
+        vm.isPending = false;
+      }
     }
   }
 })();

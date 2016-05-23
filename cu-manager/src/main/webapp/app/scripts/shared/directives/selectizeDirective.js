@@ -2,7 +2,7 @@ angular.module('webuiApp.directives').value('selectizeConfig', {}).directive("se
      return {
         restrict: 'EA',
         require: '^ngModel',
-        scope: {ngModel: '=', config: '=?', options: '=?', optgroups: '=?', ngDisabled: '=', ngRequired: '&', ngClear: '='},
+        scope: {ngModel: '=', config: '=?', options: '=?', optgroups: '=?', ngDisabled: '=', ngRequired: '&'},
         link: function(scope, element, attrs, modelCtrl) {
 
             Selectize.defaults.maxItems = null; //default to tag editor
@@ -32,12 +32,7 @@ angular.module('webuiApp.directives').value('selectizeConfig', {}).directive("se
             function toggle(disabled){
                 disabled ? selectize.disable() : selectize.enable();
             }
-            
-            function clear(clear) {
-               if(clear)
-                 selectize.clear();
-            }
-            
+
             var validate = function() {
                 var isInvalid = (scope.ngRequired() || attrs.required || config.required) && modelCtrl.$isEmpty(scope.ngModel);
                 modelCtrl.$setValidity('required', !isInvalid);
@@ -163,7 +158,6 @@ angular.module('webuiApp.directives').value('selectizeConfig', {}).directive("se
 
                 scope.$watch('ngModel', updateSelectize);
                 scope.$watch('ngDisabled', toggle);
-                scope.$watch('ngClear', clear);
             };
 
             element.selectize(config);
