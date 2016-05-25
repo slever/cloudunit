@@ -14,6 +14,13 @@ A complete plaform for devops featuring
 * EKL Stack for monitoring resources in a near future
 * Sonar to analyse and reports in the future
 
+Today we have many servers :
+* Tomcat(s)
+* JBoss / WildFly 10 in progress
+* FatJar for SpringBoot, Vertx, PlayFramework...
+
+And for modules : Mysql, Redis, Mongo, PostGreSQL, PostGis. Each module in different major release.
+
 ![Jenkins2 Logo](documentation/img/plateforme-trio.png "Devops Plateforme")
 
 It is available in one edition for all major platforms which offers numerous extensions to fit the needs of all developers.
@@ -36,8 +43,8 @@ There are many installation guides
 
 ## Go further
 
-* [CloudUnit CLI guide](documentation/README.md)
-* [CloudUnit Maven Plugin](documentation/README.md)
+* [CloudUnit CLI guide](https://github.com/Treeptik/cloudunit-cli/blob/dev/README.md)
+* [CloudUnit Maven Plugin](https://github.com/Treeptik/cloudunit-maven-plugin/blob/master/README.md)
 * [CloudUnit with Jenkins2/GitLab](documentation/CI-CD.md) [SOON UPDATED]
 
 # Licensing

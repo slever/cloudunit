@@ -4,6 +4,7 @@ You are reading the wright guide if you want to setup a CloudUnit server, in ord
 
 ## Requirements
 
+* A virtual or baremetal server with at least 8 Go RAM. 32 or 64 will be better !
 * A server with Ubuntu 14.04 LTS with a 3.13 or 3.19 kernel. Ok for 4.x
 * Git installed and a root account
 
@@ -12,7 +13,7 @@ You are reading the wright guide if you want to setup a CloudUnit server, in ord
 ## Installation
 
 We hope to provide a simple installation following KISS principles.
-So you just need to run this command as root :
+So you just need to run this command as *ROOT* :
 
 ```
 curl -sL https://raw.githubusercontent.com/Treeptik/cloudunit/dev/cu-production/boot.sh | bash
@@ -22,7 +23,7 @@ After installation, you need to set a password for *admincu* user account.
 
 ## Configuration
 
-# CloudUnit properties.
+### CloudUnit properties.
 
 The default configuration files is `/home/admincu/.docker/application.properties`
 The template is 
@@ -48,7 +49,7 @@ cloudunit.instance.name=PROD
 
 ```
 
-# Database password 
+### Database password 
 
 You have to change MYSQL root password (*changeit* by default)
 To do it, you have to change the 
@@ -59,11 +60,19 @@ Run `/home/admincu/cloudunit/cu-platform/reset.sh -y`
 
 ## Certificats
 
-By default, we cannot know your domain name. So we provide default certificats for HTTPS but without valid CA.
-You have to replace those provided by yours.
+By default, we cannot know your domain name. 
+So we provide default certificats for HTTPS but without valid CA.
 
 NGINX is provided as docker container. The certificats can be modified on filesystem through a volume.
+You have to replace the certificats into `/home/admincu/cloudunit/cu-production/nginx`
 
-## Security
+# FAQ
 
-Work in progress
+## How to reset Environment Production
+
+```
+/home/admincu/cloudunit/cu-production/reset-all.sh -y
+```
+
+
+
