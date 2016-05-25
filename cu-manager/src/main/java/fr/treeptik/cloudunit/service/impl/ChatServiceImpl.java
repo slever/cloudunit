@@ -3,13 +3,22 @@ package fr.treeptik.cloudunit.service.impl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.ChatService;
 import io.fabric8.letschat.LetsChatClient;
 import io.fabric8.letschat.RoomDTO;
+import io.fabric8.letschat.UserDTO;
+import org.bson.types.ObjectId;
+import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.io.DataOutputStream;
@@ -40,6 +49,55 @@ public class ChatServiceImpl implements ChatService {
 
     @Value("${chat.password}")
     private String chatPassword;
+
+    @Value("${mongo.uri}")
+    private String mongoURI;
+
+    @Value("${mongo.port}")
+    private int mongoPort;
+
+
+    public void createUser(User user) {
+        MongoClient mongo = new MongoClient(mongoURI, mongoPort);
+
+        DB db = mongo.getDB("letschat");
+        DBCollection collection = db.getCollection("users");
+
+        BasicDBObject document = new BasicDBObject();
+        ObjectId id = (ObjectId) document.get("_id");
+        UserDTO dto = new UserDTO();
+
+        String salt = BCrypt.gensalt(10);
+
+        document.put("_id", id);
+        document.put("displayName", user.getLogin());
+        document.put("lastName", user.getLastName());
+        document.put("firstName", user.getFirstName());
+        document.put("password", BCrypt.hashpw(user.getPassword(), salt));
+        document.put("email", user.getEmail());
+        document.put("username", user.getLogin().toLowerCase());
+        document.put("provider", "local");
+        document.put("messages", new JSONArray());
+        document.put("rooms", new JSONArray());
+        document.put("joined", "");
+        document.put("__v", "0");
+        document.put("token", "");
+
+        collection.insert(document);
+
+    }
+
+    public void deleteUser(String username) {
+        MongoClient mongo = new MongoClient(mongoURI, mongoPort);
+
+        DB db = mongo.getDB("letschat");
+        DBCollection collection = db.getCollection("users");
+
+        BasicDBObject removedUser = new BasicDBObject();
+        removedUser.put("username", username);
+
+        collection.remove(removedUser);
+    }
 
     public HttpStatus createRoom(String applicationName) {
         client = new LetsChatClient(chatAPI, chatUsername, chatUsername, chatToken);
@@ -144,6 +202,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     public List<RoomDTO> getRooms() {
+
         client = new LetsChatClient(chatAPI, chatUsername, chatUsername, chatToken);
         return client.getRooms();
     }
