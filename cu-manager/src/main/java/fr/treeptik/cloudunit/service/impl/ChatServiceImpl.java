@@ -80,7 +80,6 @@ public class ChatServiceImpl implements ChatService {
         logger.info("Sending message to the room : " + applicationName);
 
         String idRoom = getIdRoomByName(applicationName);
-        logger.info("idRoom = " + idRoom);
 
         DataOutputStream wr = null;
         HttpURLConnection connPost = null;

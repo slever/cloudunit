@@ -37,6 +37,10 @@ public class ChatUtils {
                 break;
 
         }
+
+        System.out.println("applicationName = " + applicationName);
+        System.out.println("chatService.toString() = " + chatService.toString());
+
         if(!chatService.getIdRoomByName(applicationName).equals(""))
             return chatService.sendMessage(applicationName, body);
 

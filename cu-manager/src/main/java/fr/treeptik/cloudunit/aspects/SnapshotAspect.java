@@ -54,6 +54,7 @@ public class SnapshotAspect
     @Inject
     private MessageService messageService;
 
+    @Inject
     private ChatUtils chatUtils;
 
     // Before methods
@@ -65,7 +66,6 @@ public class SnapshotAspect
     {
         try
         {
-            chatUtils = new ChatUtils();
             Snapshot snapshot = (Snapshot) result;
             User user = this.getAuthentificatedUser();
             Message message = null;

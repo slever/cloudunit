@@ -56,6 +56,7 @@ public class ModuleAspect
     @Inject
     private MessageService messageService;
 
+    @Inject
     private ChatUtils chatUtils;
 
     @Before("execution(* fr.treeptik.cloudunit.service.ModuleService.remove(..)) " +
@@ -63,7 +64,6 @@ public class ModuleAspect
     public void beforeModule(JoinPoint joinPoint)
         throws MonitorException, ServiceException {
 
-        chatUtils = new ChatUtils();
         User user = getAuthentificatedUser();
         Message message = null;
 
@@ -108,7 +108,6 @@ public class ModuleAspect
         returning = "result")
     public void afterReturningModule(StaticPart staticPart, Object result)
         throws MonitorException {
-        chatUtils = new ChatUtils();
         try {
             if (result == null)
                 return;
