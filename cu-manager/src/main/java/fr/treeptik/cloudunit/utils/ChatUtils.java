@@ -11,6 +11,8 @@ import javax.inject.Inject;
 
 /**
  * Created by angular5 on 24/05/16.
+ *
+ * Description of the differents messages which was send
  */
 @Component
 public class ChatUtils {

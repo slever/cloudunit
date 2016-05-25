@@ -30,6 +30,8 @@ import java.util.List;
 
 /**
  * Created by angular5 on 24/05/16.
+ *
+ * Communication with the chat
  */
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -56,7 +58,11 @@ public class ChatServiceImpl implements ChatService {
     @Value("${mongo.port}")
     private int mongoPort;
 
-
+    /**
+     * Create a user in the chat
+     *
+     * @param user User
+     */
     public void createUser(User user) {
         MongoClient mongo = new MongoClient(mongoURI, mongoPort);
 
@@ -87,6 +93,11 @@ public class ChatServiceImpl implements ChatService {
 
     }
 
+    /**
+     * Delete a user in the chat
+     *
+     * @param username String
+     */
     public void deleteUser(String username) {
         MongoClient mongo = new MongoClient(mongoURI, mongoPort);
 
@@ -99,6 +110,12 @@ public class ChatServiceImpl implements ChatService {
         collection.remove(removedUser);
     }
 
+    /**
+     * Create a room when an application was created
+     *
+     * @param applicationName String
+     * @return HttpStatus
+     */
     public HttpStatus createRoom(String applicationName) {
         client = new LetsChatClient(chatAPI, chatUsername, chatUsername, chatToken);
         logger.info("Creation of new room : " + applicationName);
@@ -117,6 +134,12 @@ public class ChatServiceImpl implements ChatService {
         return HttpStatus.OK;
     }
 
+    /**
+     * Delete a room when an application was deleted
+     *
+     * @param applicationName String
+     * @return HttpStatus
+     */
     public HttpStatus deleteRoom(String applicationName) {
         client = new LetsChatClient(chatAPI, chatUsername, chatUsername, chatToken);
         logger.info("Deletion of room : " + applicationName);
@@ -134,6 +157,13 @@ public class ChatServiceImpl implements ChatService {
         return HttpStatus.NOT_FOUND;
     }
 
+    /**
+     * Send a message in the chat when an event happends
+     *
+     * @param applicationName String
+     * @param message String
+     * @return HttpStatus
+     */
     public HttpStatus sendMessage(String applicationName, String message) {
         logger.info("Sending message to the room : " + applicationName);
 
@@ -188,6 +218,12 @@ public class ChatServiceImpl implements ChatService {
         return code;
     }
 
+    /**
+     * Get id of an room with name of application
+     *
+     * @param applicationName String
+     * @return String
+     */
     public String getIdRoomByName(String applicationName) {
         List<RoomDTO> roomList = getRooms();
 
@@ -201,6 +237,11 @@ public class ChatServiceImpl implements ChatService {
         return "";
     }
 
+    /**
+     * Get all existing rooms
+     *
+     * @return List<RoomDTO>
+     */
     public List<RoomDTO> getRooms() {
 
         client = new LetsChatClient(chatAPI, chatUsername, chatUsername, chatToken);
