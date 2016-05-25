@@ -22,6 +22,7 @@ import fr.treeptik.cloudunit.model.Message;
 import fr.treeptik.cloudunit.model.Module;
 import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.MessageService;
+import fr.treeptik.cloudunit.utils.ChatUtils;
 import fr.treeptik.cloudunit.utils.MessageUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
@@ -55,11 +56,14 @@ public class ModuleAspect
     @Inject
     private MessageService messageService;
 
+    private ChatUtils chatUtils;
+
     @Before("execution(* fr.treeptik.cloudunit.service.ModuleService.remove(..)) " +
         "|| execution(* fr.treeptik.cloudunit.service.ModuleService.initModule(..))")
     public void beforeModule(JoinPoint joinPoint)
         throws MonitorException, ServiceException {
 
+        chatUtils = new ChatUtils();
         User user = getAuthentificatedUser();
         Message message = null;
 
@@ -72,6 +76,9 @@ public class ModuleAspect
                 message = MessageUtils.writeBeforeModuleMessage(user,
                     module.getName(), application.getDisplayName(),
                     createType);
+                chatUtils.writeBeforeModuleMessage(user,
+                        module.getName(), application.getDisplayName(),
+                        createType);
                 logger.info(message.toString());
                 messageService.create(message);
                 break;
@@ -83,6 +90,10 @@ public class ModuleAspect
                         .writeBeforeModuleMessage(user, module.getName(),
                             ((User) joinPoint.getArgs()[1]).getLogin(),
                             deleteType);
+                    chatUtils
+                            .writeBeforeModuleMessage(user, module.getName(),
+                                    ((User) joinPoint.getArgs()[1]).getLogin(),
+                                    deleteType);
                     logger.info(message.toString());
                     messageService.create(message);
                 }
@@ -97,6 +108,7 @@ public class ModuleAspect
         returning = "result")
     public void afterReturningModule(StaticPart staticPart, Object result)
         throws MonitorException {
+        chatUtils = new ChatUtils();
         try {
             if (result == null)
                 return;
@@ -109,11 +121,15 @@ public class ModuleAspect
                     case initModule:
                         message = MessageUtils.writeModuleMessage(user, module,
                             createType);
+                        chatUtils.writeModuleMessage(user, module,
+                                createType);
                         break;
 
                     case deleteType:
                         message = MessageUtils.writeModuleMessage(user, module,
                             deleteType);
+                        chatUtils.writeModuleMessage(user, module,
+                                deleteType);
                         break;
                 }
                 if (message != null) {

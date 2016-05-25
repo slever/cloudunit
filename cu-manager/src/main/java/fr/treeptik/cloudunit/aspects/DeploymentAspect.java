@@ -17,8 +17,12 @@ package fr.treeptik.cloudunit.aspects;
 
 import fr.treeptik.cloudunit.exception.MonitorException;
 import fr.treeptik.cloudunit.exception.ServiceException;
-import fr.treeptik.cloudunit.model.*;
+import fr.treeptik.cloudunit.model.Application;
+import fr.treeptik.cloudunit.model.Deployment;
+import fr.treeptik.cloudunit.model.Message;
+import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.MessageService;
+import fr.treeptik.cloudunit.utils.ChatUtils;
 import fr.treeptik.cloudunit.utils.MessageUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
@@ -47,6 +51,9 @@ public class DeploymentAspect
     @Inject
     private MessageService messageService;
 
+    @Inject
+    private ChatUtils chatUtils;
+
     // Before methods
     @Before("execution(* fr.treeptik.cloudunit.service.DeploymentService.create(..))")
     public void beforeDeployment(JoinPoint joinPoint)
@@ -59,6 +66,8 @@ public class DeploymentAspect
                 case createType:
                     message = MessageUtils.writeBeforeDeploymentMessage(user,
                         application, createType);
+                    chatUtils.writeBeforeDeploymentMessage(user,
+                            application, createType);
                     break;
             }
             if (message != null) {
@@ -85,6 +94,8 @@ public class DeploymentAspect
                 case createType:
                     message = MessageUtils.writeDeploymentMessage(user, deployment,
                         createType);
+                    chatUtils.writeDeploymentMessage(user, deployment,
+                            createType);
                     break;
             }
 

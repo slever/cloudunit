@@ -21,6 +21,7 @@ import fr.treeptik.cloudunit.model.Message;
 import fr.treeptik.cloudunit.model.Snapshot;
 import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.MessageService;
+import fr.treeptik.cloudunit.utils.ChatUtils;
 import fr.treeptik.cloudunit.utils.MessageUtils;
 import org.aspectj.lang.JoinPoint.StaticPart;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -53,6 +54,8 @@ public class SnapshotAspect
     @Inject
     private MessageService messageService;
 
+    private ChatUtils chatUtils;
+
     // Before methods
     @AfterReturning( pointcut = "execution(* fr.treeptik.cloudunit.service.SnapshotService.create(..))"
         + " || execution(* fr.treeptik.cloudunit.service.SnapshotService.remove(..))"
@@ -62,6 +65,7 @@ public class SnapshotAspect
     {
         try
         {
+            chatUtils = new ChatUtils();
             Snapshot snapshot = (Snapshot) result;
             User user = this.getAuthentificatedUser();
             Message message = null;
@@ -69,12 +73,15 @@ public class SnapshotAspect
             {
                 case createType:
                     message = MessageUtils.writeSnapshotMessage( user, snapshot, createType );
+                    chatUtils.writeSnapshotMessage( user, snapshot, createType );
                     break;
                 case deleteType:
                     message = MessageUtils.writeSnapshotMessage( user, snapshot, deleteType );
+                    chatUtils.writeSnapshotMessage( user, snapshot, deleteType );
                     break;
                 case cloneFromASnapshot:
                     message = MessageUtils.writeSnapshotMessage( user, snapshot, cloneFromASnapshot );
+                    chatUtils.writeSnapshotMessage( user, snapshot, cloneFromASnapshot );
                     break;
             }
             if ( message != null )

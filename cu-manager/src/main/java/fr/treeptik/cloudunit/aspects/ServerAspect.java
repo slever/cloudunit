@@ -21,6 +21,7 @@ import fr.treeptik.cloudunit.model.Message;
 import fr.treeptik.cloudunit.model.Server;
 import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.MessageService;
+import fr.treeptik.cloudunit.utils.ChatUtils;
 import fr.treeptik.cloudunit.utils.MessageUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
@@ -51,6 +52,9 @@ public class ServerAspect
 
     @Inject
     private MessageSource messageSource;
+
+    @Inject
+    private ChatUtils chatUtils;
 
     // Before methods
     @Before("execution(* fr.treeptik.cloudunit.service.ServerService.updateType(..))")
@@ -89,10 +93,14 @@ public class ServerAspect
                 case createType:
                     message = MessageUtils.writeServerMessage(user, server,
                         createType);
+                    chatUtils.writeServerMessage(user, server,
+                            createType);
                     break;
                 case updateType:
                     message = MessageUtils.writeServerMessage(user, server,
                         updateType);
+                    chatUtils.writeServerMessage(user, server,
+                            updateType);
                     break;
 
             }

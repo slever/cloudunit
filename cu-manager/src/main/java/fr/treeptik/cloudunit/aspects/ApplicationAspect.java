@@ -21,6 +21,7 @@ import fr.treeptik.cloudunit.model.Application;
 import fr.treeptik.cloudunit.model.Message;
 import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.MessageService;
+import fr.treeptik.cloudunit.utils.ChatUtils;
 import fr.treeptik.cloudunit.utils.MessageUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
@@ -59,6 +60,9 @@ public class ApplicationAspect
 
     @Inject
     private MessageSource messageSource;
+
+    @Inject
+    private ChatUtils chatUtils;
 
     /**
      * @param joinPoint
@@ -166,18 +170,26 @@ public class ApplicationAspect
                 case createType:
                     message = MessageUtils.writeAfterReturningApplicationMessage(
                         user, application, createType);
+                    chatUtils.writeAfterReturningApplicationMessage(
+                            user, application, createType);
                     break;
                 case deleteType:
                     message = MessageUtils.writeAfterReturningApplicationMessage(
                         user, application, deleteType);
+                    chatUtils.writeAfterReturningApplicationMessage(
+                            user, application, deleteType);
                     break;
                 case startType:
                     message = MessageUtils.writeAfterReturningApplicationMessage(
                         user, application, startType);
+                    chatUtils.writeAfterReturningApplicationMessage(
+                            user, application, startType);
                     break;
                 case stopType:
                     message = MessageUtils.writeAfterReturningApplicationMessage(
                         user, application, stopType);
+                    chatUtils.writeAfterReturningApplicationMessage(
+                            user, application, stopType);
                     break;
             }
             if (message != null) {
