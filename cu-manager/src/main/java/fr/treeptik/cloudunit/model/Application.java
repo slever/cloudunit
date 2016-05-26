@@ -44,6 +44,8 @@ public class Application
 
     private String displayName;
 
+    private String chatUrl;
+
     /**
      * CloudUnit instance name (e.g. DEV, QA, PROD).
      */
@@ -145,6 +147,10 @@ public class Application
     public String getDisplayName() { return displayName; }
 
     public void setDisplayName(String displayName) { this.displayName = displayName; }
+
+    public String getChatUrl() { return chatUrl; }
+
+    public void setChatUrl(String chatUrl) { this.chatUrl = chatUrl; }
 
     public String getCuInstanceName() { return cuInstanceName; }
 

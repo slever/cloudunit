@@ -3,10 +3,7 @@ package fr.treeptik.cloudunit.service.impl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.ChatService;
 import io.fabric8.letschat.LetsChatClient;
@@ -27,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by angular5 on 24/05/16.
@@ -87,7 +85,7 @@ public class ChatServiceImpl implements ChatService {
         document.put("rooms", new JSONArray());
         document.put("joined", "");
         document.put("__v", "0");
-        document.put("token", "");
+        document.put("token", generateToken());
 
         collection.insert(document);
 
@@ -99,15 +97,24 @@ public class ChatServiceImpl implements ChatService {
      * @param username String
      */
     public void deleteUser(String username) {
+        logger.info("Deletion of an user : " + username);
+
         MongoClient mongo = new MongoClient(mongoURI, mongoPort);
 
         DB db = mongo.getDB("letschat");
         DBCollection collection = db.getCollection("users");
 
-        BasicDBObject removedUser = new BasicDBObject();
-        removedUser.put("username", username);
+        DBCursor cursor = collection.find();
 
-        collection.remove(removedUser);
+        while(cursor.hasNext()) {
+            DBObject removedUser = cursor.next();
+            if(removedUser.get("displayName").equals(username))
+            {
+                logger.info("User " + username + " found");
+                collection.remove(removedUser);
+                return;
+            }
+        }
     }
 
     /**
@@ -246,5 +253,23 @@ public class ChatServiceImpl implements ChatService {
 
         client = new LetsChatClient(chatAPI, chatUsername, chatUsername, chatToken);
         return client.getRooms();
+    }
+
+    private String generateToken () {
+        byte[] password = new byte[24];
+        new Random().nextBytes(password);
+
+        final char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+        char[] hexChars = new char[password.length * 2];
+        for ( int j = 0; j < password.length; j++ ) {
+            int v = password[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        String salt = BCrypt.gensalt(10);
+        String token = BCrypt.hashpw(new String(hexChars), salt);
+
+        return token;
     }
 }

@@ -86,6 +86,9 @@ public class ApplicationServiceImpl
     @Inject
     private MessageSource messageSource;
 
+    @Inject
+    private ChatService chatService;
+
     @Value("${cloudunit.max.apps:100}")
     private String numberMaxApplications;
 
@@ -106,6 +109,9 @@ public class ApplicationServiceImpl
 
     @Value("${cloudunit.manager.ip}")
     private String hostName2;
+
+    @Value("${chat.api}")
+    private String chatApi;
 
     public ApplicationDAO getApplicationDAO() {
         return this.applicationDAO;
@@ -212,6 +218,8 @@ public class ApplicationServiceImpl
 
         application.setName(applicationName);
         application.setDisplayName(applicationName);
+
+        application.setChatUrl(chatApi + "/#!/room/" + chatService.getIdRoomByName(applicationName));
         application.setUser(user);
         application.setModules(new ArrayList<>());
 
@@ -245,6 +253,8 @@ public class ApplicationServiceImpl
 
         application.setName(applicationName);
         application.setDisplayName(applicationName);
+
+        application.setChatUrl(chatApi+"/#!/room/" + chatService.getIdRoomByName(applicationName));
         application.setUser(user);
         application.setCuInstanceName(cuInstanceName);
         application.setModules(new ArrayList<>());
