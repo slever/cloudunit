@@ -24,7 +24,7 @@ import fr.treeptik.cloudunit.model.Application;
 import fr.treeptik.cloudunit.model.Status;
 import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.service.ApplicationService;
-import fr.treeptik.cloudunit.service.ChatService;
+import fr.treeptik.cloudunit.service.JenkinsService;
 import fr.treeptik.cloudunit.utils.AuthentificationUtils;
 import fr.treeptik.cloudunit.utils.CheckUtils;
 import org.slf4j.Logger;
@@ -64,7 +64,7 @@ public class ApplicationController
     private ApplicationManager applicationManager;
 
     @Inject
-    private ChatService chatService;
+    private JenkinsService jenkinsService;
 
     /**
      * To verify if an application exists or not.
@@ -122,7 +122,7 @@ public class ApplicationController
         authentificationUtils.canStartNewAction(user, null, Locale.ENGLISH);
 
         applicationManager.create(input.getApplicationName(), input.getLogin(), input.getServerName());
-        chatService.createRoom(input.getApplicationName());
+        jenkinsService.createProject(input.getApplicationName());
 
         return new HttpOk();
     }
@@ -270,8 +270,6 @@ public class ApplicationController
         }
 
         logger.info("Application " + applicationName + " is deleted.");
-
-        chatService.deleteRoom(applicationName);
 
         return new HttpOk();
     }
