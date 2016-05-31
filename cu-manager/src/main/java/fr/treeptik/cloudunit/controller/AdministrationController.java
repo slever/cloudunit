@@ -67,6 +67,9 @@ public class AdministrationController
     private GitlabService gitlabService;
 
     @Inject
+    private ChatService chatService;
+
+    @Inject
     private AuthentificationUtils authentificationUtils;
 
     /**
@@ -92,6 +95,7 @@ public class AdministrationController
 
         this.gitlabService.createUser(user);
         this.jenkinsService.addUser(user);
+        this.chatService.createUser(user);
         this.userService.activationAccount(user);
 
         return new HttpOk();
@@ -118,6 +122,7 @@ public class AdministrationController
         }
         this.gitlabService.deleteUser(login);
         this.jenkinsService.deleteUser(login);
+        this.chatService.deleteUser(login);
         this.userService.remove(user);
 
         return new HttpOk();
