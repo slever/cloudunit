@@ -12,7 +12,9 @@ RETURN=`docker ps | grep letschat-mongo`
 # If mongo is not running
 if [ -z "$RETURN" ]; then
 
-	docker run --name letschat-mongo -d mongo:$M_MAJOR
+	docker run --name letschat-mongo \
+			   -p 27017:27017 \
+			   -d mongo:$M_MAJOR
 	
 	# Maybe it could already exist
     if [ "$?" == "1" ]; then

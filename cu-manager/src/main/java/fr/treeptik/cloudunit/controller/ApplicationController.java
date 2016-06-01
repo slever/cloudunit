@@ -125,8 +125,8 @@ public class ApplicationController
         User user = authentificationUtils.getAuthentificatedUser();
         authentificationUtils.canStartNewAction(user, null, Locale.ENGLISH);
 
-        applicationManager.create(input.getApplicationName(), input.getLogin(), input.getServerName());
         chatService.createRoom(input.getApplicationName());
+        applicationManager.create(input.getApplicationName(), input.getLogin(), input.getServerName());
 
         return new HttpOk();
     }

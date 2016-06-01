@@ -218,7 +218,6 @@ public class ApplicationServiceImpl
 
         application.setName(applicationName);
         application.setDisplayName(applicationName);
-
         application.setChatUrl(chatApi + "/#!/room/" + chatService.getIdRoomByName(applicationName));
         application.setUser(user);
         application.setModules(new ArrayList<>());
@@ -253,7 +252,6 @@ public class ApplicationServiceImpl
 
         application.setName(applicationName);
         application.setDisplayName(applicationName);
-
         application.setChatUrl(chatApi+"/#!/room/" + chatService.getIdRoomByName(applicationName));
         application.setUser(user);
         application.setCuInstanceName(cuInstanceName);

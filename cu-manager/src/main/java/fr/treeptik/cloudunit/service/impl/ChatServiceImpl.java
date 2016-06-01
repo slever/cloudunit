@@ -22,9 +22,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by angular5 on 24/05/16.
@@ -157,11 +155,28 @@ public class ChatServiceImpl implements ChatService {
         {
             if(dto.getName().equals(applicationName)) {
                 client.deleteRoom(dto.getId());
-                return HttpStatus.OK;
+                break;
             }
         }
 
-        return HttpStatus.NOT_FOUND;
+        MongoClient mongo = new MongoClient(mongoURI, mongoPort);
+
+        DB db = mongo.getDB("letschat");
+        DBCollection collection = db.getCollection("rooms");
+
+        DBCursor cursor = collection.find();
+
+        while(cursor.hasNext()) {
+            DBObject removedRoom = cursor.next();
+            if(removedRoom.get("name").equals(applicationName) && removedRoom.get("archived").equals(true))
+            {
+                logger.info("Room " + applicationName + " found");
+                collection.remove(removedRoom);
+                break;
+            }
+        }
+
+        return HttpStatus.OK;
     }
 
     /**
@@ -237,6 +252,7 @@ public class ChatServiceImpl implements ChatService {
         for(RoomDTO dto : roomList)
         {
             if(dto.getName().equals(applicationName)) {
+                System.out.println("Here !");
                 return dto.getId();
             }
         }
