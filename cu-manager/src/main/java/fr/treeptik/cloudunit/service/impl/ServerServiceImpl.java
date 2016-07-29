@@ -162,11 +162,6 @@ public class ServerServiceImpl
         logger.debug("imagePath:" + imagePath);
 
         List<String> volumesFrom = new ArrayList<>();
-        if (!server.getImage().getName().contains("fatjar")
-                && !server.getImage().getName().startsWith("apache")
-                && !server.getImage().getName().startsWith("wildfly")) {
-            volumesFrom.add(server.getImage().getName());
-        }
         volumesFrom.add("java");
         dockerContainer = new DockerContainerBuilder()
                 .withName(containerName)
@@ -627,15 +622,9 @@ public class ServerServiceImpl
                     || !jvmOptions.equalsIgnoreCase(server.getJvmOptions())) {
                 // Changement configuration MEMOIRE + OPTIONS
 
-                String command = "bash /cloudunit/appconf/scripts/change-server-config.sh "
-                        + jvmMemory + " " + "\"" + jvmOptions + "\"";
-
-                if (server.getImage().getName().contains("jar")
-                        || server.getImage().getName().contains("wildfly")
-                        || server.getImage().getName().contains("apache")) {
-                    command = "bash /cloudunit/scripts/change-server-config.sh "
+                String command = "bash /cloudunit/scripts/change-server-config.sh "
                             + jvmMemory + " " + "\"" + jvmOptions + "\"";
-                }
+
                 logger.info("command shell to execute [" + command + "]");
                 int status = shellUtils.executeShell(command, configShell);
             }
