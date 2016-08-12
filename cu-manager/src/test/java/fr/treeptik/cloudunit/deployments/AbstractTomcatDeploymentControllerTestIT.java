@@ -48,7 +48,6 @@ import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.Filter;
-import javax.validation.Valid;
 
 @RunWith( SpringJUnit4ClassRunner.class )
 @WebAppConfiguration

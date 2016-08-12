@@ -59,6 +59,7 @@ public class Image
 
     private String prefixEnv;
 
+    @JsonIgnore
     public int getPrefixId() {
         return prefixEnv.hashCode();
     }

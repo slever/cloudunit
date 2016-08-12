@@ -1,12 +1,10 @@
 package fr.treeptik.cloudunit.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.treeptik.cloudunit.dto.EnvironmentVariableRequest;
 import fr.treeptik.cloudunit.dto.VolumeRequest;
 import fr.treeptik.cloudunit.exception.CheckException;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.model.Application;
-import fr.treeptik.cloudunit.model.Environment;
 import fr.treeptik.cloudunit.model.User;
 import fr.treeptik.cloudunit.model.Volume;
 import fr.treeptik.cloudunit.service.ApplicationService;

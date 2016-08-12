@@ -12,6 +12,7 @@
         <module>cu-manager</module>
         <module>cu-monitor</module>
         <module>cu-maven</module>
+        <module>cu-cli</module>
     </modules>
 
     <dependencies>

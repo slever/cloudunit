@@ -1,9 +1,5 @@
 package fr.treeptik.cloudunit.dto;
 
-import static org.junit.Assert.*;
-
-import fr.treeptik.cloudunit.dto.LogUnit;
-import fr.treeptik.cloudunit.dto.LogLine;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;

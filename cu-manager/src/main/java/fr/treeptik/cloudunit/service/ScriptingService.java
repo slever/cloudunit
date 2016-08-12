@@ -15,7 +15,6 @@
 
 package fr.treeptik.cloudunit.service;
 
-import fr.treeptik.cloudunit.enums.RemoteExecAction;
 import fr.treeptik.cloudunit.exception.ServiceException;
 import fr.treeptik.cloudunit.model.Script;
 

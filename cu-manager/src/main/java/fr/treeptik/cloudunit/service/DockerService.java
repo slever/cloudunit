@@ -15,8 +15,6 @@
 
 package fr.treeptik.cloudunit.service;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.util.List;
 
