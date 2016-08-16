@@ -13,6 +13,7 @@ package fr.treeptik.cloudunit.model;/*
  * For any questions, contact us : contact@treeptik.fr
  */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.treeptik.cloudunit.utils.JsonDateSerializer;
@@ -32,7 +33,7 @@ public class Deployment
     private Integer id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private Date date;
 
     @JsonIgnore

@@ -1,5 +1,7 @@
 package fr.treeptik.cloudunit.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +28,7 @@ public class ErrorMessage
     private Integer id;
 
     @Temporal( TemporalType.TIMESTAMP )
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private Date date;
 
     private String message;

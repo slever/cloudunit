@@ -13,6 +13,7 @@ package fr.treeptik.cloudunit.model;/*
 									* For any questions, contact us : contact@treeptik.fr
 									*/
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.treeptik.cloudunit.utils.JsonDateSerializer;
@@ -54,7 +55,7 @@ public class Application implements Serializable {
 	private Status status;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonFormat(pattern = "YYYY-MM-dd HH:mm")
 	private Date date;
 
 	@ManyToOne
@@ -105,6 +106,9 @@ public class Application implements Serializable {
 
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private Set<Volume> volumes;
+
+	@JsonIgnore
+	private String location;
 
 	public Application() {
 		super();

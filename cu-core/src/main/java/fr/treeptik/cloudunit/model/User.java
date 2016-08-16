@@ -13,6 +13,7 @@ package fr.treeptik.cloudunit.model;/*
  * For any questions, contact us : contact@treeptik.fr
  */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.treeptik.cloudunit.utils.CustomPasswordEncoder;
@@ -51,11 +52,11 @@ public class User
     private String organization;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private Date signin;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private Date lastConnection;
 
     @Column(unique = true, nullable = false)
