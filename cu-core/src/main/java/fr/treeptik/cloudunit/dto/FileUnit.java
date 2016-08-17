@@ -16,11 +16,14 @@
 
 package fr.treeptik.cloudunit.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.function.Predicate;
 
 /**
  * Created by nicolas on 20/05/15.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FileUnit {
 
     public static Predicate<FileUnit> edition() {
@@ -102,6 +105,8 @@ public class FileUnit {
         this.dir = dir;
         this.breadcrumb = breadcrumb;
     }
+
+    public FileUnit(){}
 
     public boolean isDir() {
         return dir;
